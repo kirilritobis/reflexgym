@@ -1,19 +1,41 @@
+const jwt = require('jsonwebtoken')
+// should be removed and put into envconfig
+require('dotenv').config()
 const AuthModel = require('../models/auth.model')()
 // const UserSettingsModel = require('../models/user.settings.model')()
-// const logger = require('../utils/loggers/common.logger')
-// const errorhandler = require('../helpers/errorHandler')()
+const logger = require('../utils/loggers/common.logger')
+const errorhandler = require('../helpers/errorHandler')()
 
 module.exports = function AuthController () {
     // Auth routes
     async function authLocal (req, res, next) {
         try {
-            // console.log("KURRRRR")
-            // console.log(req.body)
-            const result = await AuthModel.auth(req.body)
-            console.log(result)
-            res.send('ok')
+            await AuthModel.authLocal(req.body, (err, result) => {
+                if (err) {
+                    return errorhandler.sendError(err, req, res, err.status ? err : '')
+                }
+                // console.log('GGGGGGG', result.email)
+                const user = req.body.email
+
+                const accessToken = generateAccessToken(user)
+                res.cookie('jwt', accessToken, )
+                // const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+                
+                // res.send({ accessToken: accessToken, refreshToken: refreshToken })
+                // res.send(false)
+            })
         } catch (err) {
-            // logger.error('%o', err)
+            logger.error('%o', err)
+            // return errorhandler.sendError(err, req, res)
+            return err
+        }
+    }
+
+    function generateAccessToken(user){
+        try {
+            return jwt.sign( { email: user.email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '60s'})
+        } catch (err) {
+            logger.error('%o', err)
             // return errorhandler.sendError(err, req, res)
             return err
         }
