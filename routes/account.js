@@ -1,4 +1,7 @@
 const express = require('express')
+const jwt = require('jsonwebtoken')
+
+const { authenticate } = require('passport/lib')
 const router = express.Router()
 // const UserCtrl = require('../controllers/user.controller')()
 const AuthCtrl = require('../controllers/auth.controller')()
@@ -49,15 +52,41 @@ const AuthCtrl = require('../controllers/auth.controller')()
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
  */
-router.route('/register')
-.post(/*TrimRequest.body, loginValidation,*/ /*(req, res, next) => {
-    try {
-        console.log('KURRR')
-        res.render('register.ejs')
-    } catch (err) {
-        res.send(err.message)
-    }
-},*/ AuthCtrl.authLocal)
+router.route('/login')
+    .post(/*TrimRequest.body, loginValidation, (req, res, next) => {
+         try {
+             req.body.ipV4 = (req.headers['x-forwarded-for'] || '').split(',').pop().trim() ||
+                 req.connection.remoteAddress ||
+                 req.socket.remoteAddress ||
+                 req.connection.socket.remoteAddress
+ 
+             next()
+         } catch (err) {
+             res.send(err.message)
+         }
+     }, */AuthCtrl.authLocal)
 
+router.route('/test')
+    .get(authenticateToken, (req, res) => {
+        res.send('Successful login')
+    })
+
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if(!token) {
+        return res.sendStatus(401)
+    }
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if(err) {
+            return res.sendStatus(403)
+        }
+        next()
+    })
+
+}
+ 
+ 
 
 module.exports = router
