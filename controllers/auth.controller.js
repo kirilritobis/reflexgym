@@ -14,14 +14,13 @@ module.exports = function AuthController () {
                 if (err) {
                     return errorhandler.sendError(err, req, res, err.status ? err : '')
                 }
-                // console.log('GGGGGGG', result.email)
                 const user = req.body.email
 
                 const accessToken = generateAccessToken(user)
-                res.cookie('jwt', accessToken, )
+                const refreshToken = jwt.sign( { email: user.email }, process.env.REFRESH_TOKEN_SECRET )
+                res.cookie('jwt', refreshToken, { httpOnly: true } )
                 // const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-                
-                // res.send({ accessToken: accessToken, refreshToken: refreshToken })
+                res.send({ accessToken: accessToken })
                 // res.send(false)
             })
         } catch (err) {

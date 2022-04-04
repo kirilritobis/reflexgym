@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const { authenticate } = require('passport/lib')
 const router = express.Router()
-// const UserCtrl = require('../controllers/user.controller')()
+const UserCtrl = require('../controllers/user.controller')()
 const AuthCtrl = require('../controllers/auth.controller')()
 // const UserSettingsCtrl = require('../controllers/user.settings.controller')()
 // const isAuth = require('../middleware/is-auth.middleware')
@@ -65,6 +65,26 @@ router.route('/login')
              res.send(err.message)
          }
      }, */AuthCtrl.authLocal)
+
+/**
+ * @api {post} /api/users/create Create New User
+ * @apiName CreateUser
+ * @apiGroup User
+ * @apiVersion 1.0.0
+ *
+ * @apiPermission userAdmin
+ * @apiParam {String}  firstName      Firstname of the User.
+ * @apiParam {String}  lastName       Lastname.
+ * @apiParam {String}  email          Email.
+ * @apiParam {String}  phone          Phone.
+ *
+ * @apiError NoAccessRight Only authenticated Admins can access the data.
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ */
+ router.route('/create')
+ .post(/*isAuth, apiPermissions, TrimRequest.body, createUserValidation,*/ UserCtrl.createUser)
+
 
 router.route('/test')
     .get(authenticateToken, (req, res) => {

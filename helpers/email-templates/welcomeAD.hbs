@@ -1,0 +1,39 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Actionable emails e.g. reset password</title>
+    </head>
+
+    <body itemscope itemtype="http://schema.org/EmailMessage">
+        <table>
+            <tr>
+                <td>
+                    <div style="font-size:15px; color: black;">
+                        <p style="margin: 0;">
+                            Dear <b>{{firstName}} {{lastName}}</b>,
+                        </p>
+                        <p style="margin: 20px 0 0 0;">
+                            We have successfully created your account for the EGT's Control System Website.<br>
+                            Your <b>username</b> is: <b>{{email}}</b>
+                        </p>
+                        <p style="margin: 20px 0 0 0;">
+                            Please <b>use your main EGT password (used for laptop/desktop login)</b> to log in.
+                        </p>
+                        <p style="margin: 10px 0 0 0;">
+                            The currently supported browsers are Google Chrome and Mozilla Firefox.<br>
+                        </p>
+                        <p style="margin: 20px 0 0 0;">
+                            If you haven't contacted the Control System's employees to request an account, please <a href="{{openMailClientUrl}}">contact</a> us and we will investigate the matter further.
+                        </p>
+                        <p style="margin: 20px 0 0 0;">
+                            Sincerely yours, <br>
+                            The Control System's Team
+                        </p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>
