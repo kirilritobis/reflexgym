@@ -17,6 +17,8 @@ const userSchema = new Schema({
         type: mongoose.Schema.Types.String
         // required: true
     },
+    verifyAccountToken: String,
+    verifyAccountExpires: Date,
     lastADLoginStatus: {
         type: String,
         trim: true

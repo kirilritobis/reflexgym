@@ -1,6 +1,7 @@
 const passport = require('../boot/passport')
 const EmailUtils = require('../helpers/email.util')
 
+const crypto = require('crypto')
 const userSchema = require('../schemas/user.schema')
 
 const {
@@ -12,8 +13,7 @@ const {
 module.exports = function UserModel () {
     async function createUser (userData, adminUser, session) {
         try {
-            // const randomToken = await crypto.randomBytes(64).toString('hex')
-            // const existingUser = await find(userData)
+            const randomToken = await crypto.randomBytes(64).toString('hex')
             const q = {
                 email: userData.email
             }
@@ -26,8 +26,8 @@ module.exports = function UserModel () {
             }
 
             const user = new userSchema(userData)
-            // user.verifyAccountToken = randomToken
-            // user.verifyAccountExpires = Date.now() + 24 * 60 * 60 * 1000
+            user.verifyAccountToken = randomToken
+            user.verifyAccountExpires = Date.now() + 15 * 60 * 1000
             // user.status = userStatus.INACTIVE
             // user.createdBy = adminUser._id
 
