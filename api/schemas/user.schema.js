@@ -19,6 +19,8 @@ const UserSchema = new Schema({
     },
     verifyAccountToken: String,
     verifyAccountExpires: Date,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
     lastADLoginStatus: {
         type: String,
         trim: true

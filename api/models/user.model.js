@@ -88,8 +88,89 @@ module.exports = function UserModel () {
         }
     }
 
+    // async function resetPassword (token, newPassword) {
+    //     try {
+    //         const q = {
+    //             resetPasswordToken: token
+    //         }
+
+    //         const user = await _findUser(q)
+    //         if (user.resetPasswordExpires < Date.now()) {
+    //             throw new Unauthorized('Password reset token is invalid or has expired')
+    //         }
+
+    //         user.password = newPassword
+            // user.resetPasswordToken = undefined
+            // user.resetPasswordExpires = undefined
+
+            // if (user.status === userStatus.INACTIVE) {
+    //             user.status = userStatus.ACTIVE
+    //         }
+
+    //         await user.save()
+    //         // TODO PasswordReset
+    //         return user
+    //     } catch (err) {
+    //         throw err
+    //     }
+    // }
+
+    async function _findUser (query) {
+        try {
+            const userFound = await UserSchema.findOne(query)
+            if (!userFound) {
+                throw new NotFound(`No user found matching: ${JSON.stringify(query)}`)
+            }
+            return userFound
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async function forgotPassword (email) {
+        try {
+            const user = await findUserByEmail(email)
+
+            user.resetPasswordToken = await crypto.randomBytes(64).toString('hex')
+            user.resetPasswordExpires = Date.now() + 15 * 60 * 1000
+            await user.save()
+            await EmailUtils.sendEmail('resetPassword', user.email, {
+                to: user.email,
+                token: user.resetPasswordToken,
+                // firstName: user.firstName,
+                // lastName: user.lastName,
+                uId: user.uId
+            })
+            // TODO PasswordReset
+
+            return user
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async function findUserByEmail (email) {
+        try {
+            const userFound = await UserSchema.findOne({
+                email: email
+            })
+            if (!userFound) {
+                const error = {
+                    message: 'The email address does not exist in the system',
+                    status: 'invalidEmail'
+                }
+                throw (error)
+            }
+            return userFound
+        } catch (err) {
+            throw err
+        }
+    }
+
     return {
         createUser,
-        findOneByEmail
+        findOneByEmail,
+        // resetPassword,
+        forgotPassword
     }
 }

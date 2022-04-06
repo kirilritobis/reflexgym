@@ -67,6 +67,53 @@ router.route('/login')
      }, */AuthCtrl.authLocal)
 
 /**
+ * @api {post} /api/account/reset-password/ Reset Password
+ * @apiName ResetPassword
+ * @apiGroup Account
+ * @apiVersion 1.0.0
+ *
+ * @apiParam {String}  password      The password of the user.
+ * @apiParam {String}  token         Secret token.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *
+ * @apiError Secret token expired!
+ * @apiUse EmailNotFound
+ */
+ router.route('/reset-password')
+    .post(/*TrimRequest.body, resetPasswordValidation,*/ UserCtrl.resetPassword)
+
+/**
+ * @apiDefine EmailNotFound
+ *
+ * @apiError EmailNotFound No such <code>email</code> in the DB.
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 404 Not Found
+ *     {
+ *       "error": "EmailNotFound"
+ *     }
+ */
+
+/**
+ * @api {post} /api/account/recover-password/ Recover Password
+ * @apiName RecoverPassword
+ * @apiGroup Account
+ * @apiVersion 1.0.0
+ *
+ * @apiParam {String}  email         Users unique Email.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *
+ * @apiUse EmailNotFound
+ */
+router.route('/recover-password/')
+    .post(/*TrimRequest.body, */UserCtrl.forgotPassword)
+
+
+/**
  * @api {post} /api/users/create Create New User
  * @apiName CreateUser
  * @apiGroup User

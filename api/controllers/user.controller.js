@@ -34,7 +34,51 @@ module.exports = function UserController () {
         }
     }
 
+    /**
+     * Reset password
+     *
+     * @param {string} token Secret token
+     * @param {string} email The email of the user
+     * @returns {object}
+     */
+     async function resetPassword (req, res) {
+        try {
+            await UsersModel.resetPassword(req.body.token, req.body.password)
+            res.send({
+                status: 1,
+                message: 'Your password has been successfully changed.',
+                title: 'SUCCESS'
+            })
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res)
+        }
+    }
+
+    /**
+     * Recover Password
+     *
+     * @param {string} email The email of the user
+     * @returns {user}
+     */
+     async function forgotPassword (req, res) {
+        try {
+            const result = await UsersModel.forgotPassword(req.body.email)
+            res.send({
+                message: 'You password reset request has been successfully submitted.',
+                status: 1,
+                title: 'SUCCESS'
+            })
+            return result
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res, err)
+        }
+    }
+
     return {
-        createUser
+        createUser, 
+        resetPassword,
+        forgotPassword
     }
 }

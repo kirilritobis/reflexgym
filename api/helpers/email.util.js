@@ -54,29 +54,30 @@ const emailTemplates = {
                 openMailClientUrl: `mailto:support@trakiyalighting.com?subject=NOT requested password creation&body= I have recently received a password create email that I didn’t request. Could you please investigate the case further?`
             }
         }
-    }
-    // resetPassword: {
-    //     from: defaults.from.info,
-    //     subject: 'Reset your password',
-    //     template: path.join(__dirname, 'email-templates', 'reset-password.hbs'),
-    //     content (data) {
-    //         if (!data.token) {
-    //             const tokenNotFoundError = new Error('No password reset "token" found in email data.')
-    //             logger.error(tokenNotFoundError)
-    //         }
+    },
+    resetPassword: {
+        from: defaults.from.info,
+        subject: 'Reset your password',
+        template: path.join(__dirname, 'email-templates', 'reset-password.hbs'),
+        content (data) {
+            if (!data.token) {
+                const tokenNotFoundError = new Error('No password reset "token" found in email data.')
+                logger.error(tokenNotFoundError)
+            }
 
-    //         if (!data.to) {
-    //             const toNotFoundError = new Error('No receiver ("to") found in email data.')
-    //             logger.error(toNotFoundError)
-    //         }
-    //         return {
-    //             resetPasswordUrl: (data.token && data.to) ? `${process.env.FE_URL}/account/password/reset/${data.token}/${data.uId}/` : process.env.URL,
-    //             firstName: data.firstName,
-    //             lastName: data.lastName,
-    //             openMailClientUrl: `mailto:${process.env.MAIL_DEV}?subject=NOT requested password reset&body= I have recently received a password reset email that I didn’t request. Could you please investigate the case further?`
-    //         }
-    //     }
-    // }
+            if (!data.to) {
+                const toNotFoundError = new Error('No receiver ("to") found in email data.')
+                logger.error(toNotFoundError)
+            }
+            return {
+                // resetPasswordUrl: (data.token && data.to) ? `${process.env.FE_URL}/account/password/reset/${data.token}/${data.uId}/` : process.env.URL,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                // openMailClientUrl: `mailto:${process.env.MAIL_DEV}?subject=NOT requested password reset&body= I have recently received a password reset email that I didn’t request. Could you please investigate the case further?`
+                openMailClientUrl: `mailto:support@trakiyalighting.com?subject=NOT requested password creation&body= I have recently received a password create email that I didn’t request. Could you please investigate the case further?`
+            }
+        }
+    }
 }
 
 async function sendEmail (which, to, data, callback = () => {}, cc) {
