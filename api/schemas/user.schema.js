@@ -6,7 +6,7 @@ const { autoIncrement } = require('mongoose-plugin-autoinc')
 
 const Schema = mongoose.Schema
 
-const userSchema = new Schema({
+const UserSchema = new Schema({
     uId: {
         type: Number
     },
@@ -33,7 +33,7 @@ const userSchema = new Schema({
 })
 
 // encrypt the password && 2FA secret and make it unreadable
-// userSchema.pre('save', async function () {
+// UserSchema.pre('save', async function () {
 //     try {
 //         const user = this
 
@@ -53,13 +53,13 @@ const userSchema = new Schema({
 //     }
 // })
 
-userSchema.plugin(autoIncrement, { model: 'User', field: 'uId' })
+UserSchema.plugin(autoIncrement, { model: 'User', field: 'uId' })
 
 // method which can be used in the whole application where
 // we want to compare two password (e.g. compare old and new passwords or
 // compare if the incoming password from the front-end is correct and the
 // user can be successfully authenticated)
-userSchema.methods.comparePassword = async function (candidatePassword, cb) {
+UserSchema.methods.comparePassword = async function (candidatePassword, cb) {
     try {
         if (!candidatePassword || !this.password) {
             return false
@@ -72,5 +72,5 @@ userSchema.methods.comparePassword = async function (candidatePassword, cb) {
     }
 }
 
-const SCHEMA = conn.model('user', userSchema)
+const SCHEMA = conn.model('user', UserSchema)
 module.exports = SCHEMA

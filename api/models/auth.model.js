@@ -1,7 +1,7 @@
 const { Console } = require('winston/lib/winston/transports')
 const passport = require('../boot/passport')
 
-const userSchema = require('../schemas/user.schema')
+const UserSchema = require('../schemas/user.schema')
 
 module.exports = function AuthModel () {
     // Auth routes

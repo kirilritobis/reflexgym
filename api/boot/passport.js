@@ -1,7 +1,6 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
-// const UserModel = require('../models/user.model')()
-const UserModel = require('../models/user.model')
+const UserModel = require('../models/user.model')()
 
 const logger = require('../utils/loggers/common.logger')
 

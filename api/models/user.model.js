@@ -1,8 +1,8 @@
-const passport = require('../boot/passport')
+// const passport = require('../boot/passport')
 const EmailUtils = require('../helpers/email.util')
 
 const crypto = require('crypto')
-const userSchema = require('../schemas/user.schema')
+const UserSchema = require('../schemas/user.schema')
 
 const {
     NotFound,
@@ -17,7 +17,7 @@ module.exports = function UserModel () {
             const q = {
                 email: userData.email
             }
-            const existingUser = await userSchema.findOne(q)
+            const existingUser = await UserSchema.findOne(q)
             if (existingUser) {
                 const err = new Forbidden('Account with the same Email Address already exists')
                 err.type = 'email'
@@ -25,7 +25,7 @@ module.exports = function UserModel () {
                 throw err
             }
 
-            const user = new userSchema(userData)
+            const user = new UserSchema(userData)
             user.verifyAccountToken = randomToken
             user.verifyAccountExpires = Date.now() + 15 * 60 * 1000
             // user.status = userStatus.INACTIVE
@@ -77,7 +77,19 @@ module.exports = function UserModel () {
         }
     }
 
+    async function findOneByEmail (email) {
+        try {
+            const query = {
+                email
+            }
+            return await UserSchema.findOne(query)
+        } catch (err) {
+            throw err
+        }
+    }
+
     return {
-        createUser
+        createUser,
+        findOneByEmail
     }
 }
