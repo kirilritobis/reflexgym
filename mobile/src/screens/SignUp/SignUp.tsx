@@ -1,25 +1,30 @@
+import { useInjection } from "inversify-react";
 import React, { FunctionComponent, useState } from "react";
 import {View, ScrollView, Text, StyleSheet, useWindowDimensions } from "react-native";
 import Logo from "../../../assets/images/Logo.png";
 import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
+import { IAuthService } from "../../dependencies/model";
+import { TYPES } from "../../dependencies/types";
 
 interface SignUpProps {
     navigation: any;
 }
 
 const SignUp: FunctionComponent<SignUpProps> = ({navigation}) => {
-const { height} = useWindowDimensions();
 const [username, setUsername] = useState<string>("");
 const [email, setEmail] = useState<string>("");
 const [password, setPassword] = useState<string>("");
 const [passwordRepeat, setPasswordRepeat] = useState<string>("");
+const authService = useInjection<IAuthService>(TYPES.AuthService);
 
 const onSignInPressed = () => {
     navigation.navigate("SignIn")
 }
 
-const onRegisterPressed = () => {
+const onRegisterPressed = async () => {
+    const test = await authService.register(username, email, password);
+
     console.warn("register");
 }
 

@@ -1,8 +1,13 @@
+import { useInjection } from "inversify-react";
 import React, { FunctionComponent, useState } from "react";
 import {View, ScrollView, Image, StyleSheet, useWindowDimensions } from "react-native";
 import Logo from "../../../assets/images/Logo.png";
 import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
+import { IAuthService } from "../../dependencies/model";
+import { TYPES } from "../../dependencies/types";
+import "reflect-metadata";
+
 
 interface SignInProps {
     navigation: any;
@@ -12,15 +17,16 @@ const SignIn:FunctionComponent<SignInProps> = ({navigation}) => {
 const { height} = useWindowDimensions();
 const [username, setUsername] = useState<string>("");
 const [password, setPassword] = useState<string>("");
-const onSignInPressed = () => {
-    console.warn("sign in");
+
+const onSignInPressed = async () => {
+    console.log("SignIn");
 }
 
 const onSignUpPressed = () => {
     navigation.navigate("SignUp");
 }
 
-const onForgotPasswordPressed = () => {
+const onForgotPasswordPressed = async () => {
     navigation.navigate("ForgotPassword");
 }
 
