@@ -23,8 +23,7 @@ const onSignInPressed = () => {
 }
 
 const onRegisterPressed = async () => {
-    const test = await authService.register(username, email, password);
-
+    await authService.register(username, email, password);
     console.warn("register");
 }
 

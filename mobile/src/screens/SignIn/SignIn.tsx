@@ -17,8 +17,10 @@ const SignIn:FunctionComponent<SignInProps> = ({navigation}) => {
 const { height} = useWindowDimensions();
 const [username, setUsername] = useState<string>("");
 const [password, setPassword] = useState<string>("");
+const authService = useInjection<IAuthService>(TYPES.AuthService);
 
 const onSignInPressed = async () => {
+    await authService.login(username, password);
     console.log("SignIn");
 }
 
