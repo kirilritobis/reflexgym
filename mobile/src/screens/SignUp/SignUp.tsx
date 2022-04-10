@@ -23,8 +23,13 @@ const onSignInPressed = () => {
 }
 
 const onRegisterPressed = async () => {
-    await authService.register(username, email, password);
-    console.warn("register");
+    try {
+        await authService.register(username, email, password);
+        console.warn(process.env.PUBLIC_IP);
+    } catch (error: any) {
+        const test = error;
+        console.warn(error.message)
+    }
 }
 
     return (

@@ -2,7 +2,7 @@ import axios from 'axios'
 import { injectable } from 'inversify'
 import { IAuthService } from '../../dependencies/model'
 
-export const BASE_URL = "localhost:8001/";
+export const BASE_URL = `http://${process.env.PUBLIC_IP}:8001/`;
 export const headers = {
     'Content-Type': 'application/json',
 }
@@ -15,7 +15,7 @@ export class AuthService implements IAuthService {
             password,
             email,
         }
-        await axios.post(`${BASE_URL}api/create`, {data}, {headers});
+        await axios.post(`${BASE_URL}api/create`, data, {headers});
         return '';
     }
     
@@ -24,7 +24,7 @@ export class AuthService implements IAuthService {
             username,
             password,
         }
-        await axios.post(`${BASE_URL}api/login`, {data}, {headers});
+        await axios.post(`${BASE_URL}api/login`, data, {headers});
         return '';
     }
 }
