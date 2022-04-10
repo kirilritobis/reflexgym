@@ -22,11 +22,32 @@ module.exports = function UserController () {
                 password: req.body.password,
                 phone: req.body.phone
             }
-            console.log('>>>>>', newUser)
+
             await UsersModel.createUser(req.body/*, adminUser, req.session*/)
             res.send({
                 status: 1,
                 message: 'Successfull created user'
+            })
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res)
+        }
+    }
+
+    /**
+    * Initial setup of a user password
+    *
+    * @param {string} token Secret token
+    * @param {string} password The password of the user
+    * @returns {user}
+    */
+     async function setupPassword (req, res) {
+        try {
+            await UsersModel.setupPassword(req.body.token, req.body.password)
+            res.send({
+                status: 1,
+                message: "You have successfully created your password for EGT's Control System.",
+                title: 'Successful Registration!'
             })
         } catch (err) {
             logger.error('%o', err)
@@ -79,6 +100,7 @@ module.exports = function UserController () {
     return {
         createUser, 
         resetPassword,
-        forgotPassword
+        forgotPassword,
+        setupPassword
     }
 }

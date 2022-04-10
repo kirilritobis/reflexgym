@@ -26,4 +26,4 @@ const UserCtrl = require('../controllers/user.controller')()
  *     HTTP/1.1 200 OK
  */
  router.route('/create')
- .post(/*isAuth, apiPermissions, TrimRequest.body, createUserValidation,*/ UserCtrl.createUser)
+    .post(/*isAuth, apiPermissions, TrimRequest.body, createUserValidation,*/ UserCtrl.createUser)

@@ -67,6 +67,24 @@ router.route('/login')
      }, */AuthCtrl.authLocal)
 
 /**
+ * @api {post} /api/account/setup-password/ Setup Password
+ * @apiName SetupPassword
+ * @apiGroup Account
+ * @apiVersion 1.0.0
+ *
+ * @apiParam {String}  email         Users unique Email.
+ * @apiParam {String}  token         Secret Token.
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ * @apiError Secret token expired!
+ *
+ * @apiUse EmailNotFound
+ */
+ router.route('/setup-password/')
+    .post(/*TrimRequest.body, setupPasswordValidation, */UserCtrl.setupPassword)
+
+/**
  * @api {post} /api/account/reset-password/ Reset Password
  * @apiName ResetPassword
  * @apiGroup Account

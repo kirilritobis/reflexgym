@@ -88,32 +88,54 @@ module.exports = function UserModel () {
         }
     }
 
-    // async function resetPassword (token, newPassword) {
-    //     try {
-    //         const q = {
-    //             resetPasswordToken: token
-    //         }
+    async function setupPassword (token, password) {
+        try {
+            const q = {
+                verifyAccountToken: token
+            }
 
-    //         const user = await _findUser(q)
-    //         if (user.resetPasswordExpires < Date.now()) {
-    //             throw new Unauthorized('Password reset token is invalid or has expired')
-    //         }
+            const user = await _findUser(q)
 
-    //         user.password = newPassword
-            // user.resetPasswordToken = undefined
-            // user.resetPasswordExpires = undefined
+            user.password = password
+            user.verifyAccountToken = undefined
+            user.verifyAccountExpires = undefined
+            // if (user.status === userStatus.INACTIVE) {
+            //     user.status = userStatus.ACTIVE
+            // }
+
+            await user.save()
+            return user
+        } catch (err) {
+            throw err
+        }
+    }
+
+    async function resetPassword (token, newPassword) {
+        try {
+            const q = {
+                resetPasswordToken: token
+            }
+
+            const user = await _findUser(q)
+            if (user.resetPasswordExpires < Date.now()) {
+                throw new Unauthorized('Password reset token is invalid or has expired')
+            }
+
+            user.password = newPassword
+            user.resetPasswordToken = undefined
+            user.resetPasswordExpires = undefined
 
             // if (user.status === userStatus.INACTIVE) {
-    //             user.status = userStatus.ACTIVE
-    //         }
+            //     user.status = userStatus.ACTIVE
+            // }
 
-    //         await user.save()
-    //         // TODO PasswordReset
-    //         return user
-    //     } catch (err) {
-    //         throw err
-    //     }
-    // }
+            await user.save()
+            // TODO PasswordReset
+            return user
+        } catch (err) {
+            throw err
+        }
+    }
 
     async function _findUser (query) {
         try {
@@ -170,7 +192,8 @@ module.exports = function UserModel () {
     return {
         createUser,
         findOneByEmail,
-        // resetPassword,
-        forgotPassword
+        resetPassword,
+        forgotPassword,
+        setupPassword
     }
 }
