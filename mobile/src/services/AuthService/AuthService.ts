@@ -2,7 +2,7 @@ import axios from 'axios'
 import { injectable } from 'inversify'
 import { IAuthService } from '../../dependencies/model'
 
-export const BASE_URL = "localhost:8001/";
+export const BASE_URL = "http://192.168.43.142:8001/";
 export const headers = {
     'Content-Type': 'application/json',
 }
