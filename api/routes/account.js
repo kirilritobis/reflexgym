@@ -81,7 +81,7 @@ router.route('/login')
  *
  * @apiUse EmailNotFound
  */
- router.route('/setup-password/')
+ router.route('/account-confirm')
     .post(/*TrimRequest.body, setupPasswordValidation, */UserCtrl.setupPassword)
 
 /**

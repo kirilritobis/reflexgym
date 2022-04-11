@@ -43,7 +43,7 @@ module.exports = function UserController () {
     */
      async function setupPassword (req, res) {
         try {
-            await UsersModel.setupPassword(req.body.token, req.body.password)
+            await UsersModel.setupPassword(req.body.token)
             res.send({
                 status: 1,
                 message: "You have successfully created your password for EGT's Control System.",
