@@ -12,11 +12,11 @@ interface SignUpProps {
 }
 
 const SignUp: FunctionComponent<SignUpProps> = ({navigation}) => {
-const [username, setUsername] = useState<string>("");
-const [email, setEmail] = useState<string>("");
-const [password, setPassword] = useState<string>("");
-const [passwordRepeat, setPasswordRepeat] = useState<string>("");
-const authService = useInjection<IAuthService>(TYPES.AuthService);
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [passwordRepeat, setPasswordRepeat] = useState<string>("");
+    const [phoneNumber, setPhoneNumber] = useState<string>("");
+    const authService = useInjection<IAuthService>(TYPES.AuthService);
 
 const onSignInPressed = () => {
     navigation.navigate("SignIn")
@@ -24,7 +24,7 @@ const onSignInPressed = () => {
 
 const onRegisterPressed = async () => {
     try {
-        await authService.register(username, email, password);
+        await authService.register(email, password, phoneNumber);
         console.warn(process.env.PUBLIC_IP);
     } catch (error: any) {
         const test = error;
@@ -32,16 +32,21 @@ const onRegisterPressed = async () => {
     }
 }
 
+const onTestPressed = () => {
+    navigation.navigate("ConfirmEmail")
+}
+
     return (
         <ScrollView>
         <View style={styles.root}>
             <Text style={styles.title}>Create an account</Text>
-            <CustomInput placeholder="Username" value={username} setValue={setUsername} />
             <CustomInput placeholder="Email" value={email} setValue={setEmail} />
             <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry />
             <CustomInput placeholder="Repeat Password" value={passwordRepeat} setValue={setPasswordRepeat} secureTextEntry />
+            <CustomInput placeholder="Phone Number" value={phoneNumber} setValue={setPhoneNumber} />
             <CustomButton  text="Register" onPress={onRegisterPressed} type="PRIMARY" />
             <CustomButton  text="Have an account? Sign in" onPress={onSignInPressed} type="TERTIARY" />
+            <CustomButton  text="testtest" onPress={onTestPressed} type="TERTIARY" />
         </View>
         </ScrollView>
     )

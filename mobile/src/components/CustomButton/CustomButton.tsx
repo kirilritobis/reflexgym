@@ -7,14 +7,17 @@ interface CustomButtonProps {
     type: "PRIMARY" | "SECONDARY" | "TERTIARY";
     bgColor?: string;
     fgColor?: string;
+    disabled?: boolean;
 }
 
-const CustomButton: FunctionComponent<CustomButtonProps> = ({onPress, text, type, bgColor, fgColor}) => {
+const CustomButton: FunctionComponent<CustomButtonProps> = ({onPress, text, type, bgColor, fgColor, disabled}) => {
     return (
-        <Pressable style={[styles.container,
-         styles[`container_${type}`],
-         bgColor ? {backgroundColor: bgColor} :
-          {}]} onPress={onPress}>
+        <Pressable 
+        style={[styles.container, styles[`container_${type}`],
+         bgColor ? {backgroundColor: bgColor} : {}, 
+         disabled ? { backgroundColor: "gray" } : {}]} 
+          onPress={onPress}
+          disabled={disabled}>
             <Text style={[styles.text, 
                 styles[`text_${type}`],
                 fgColor ? { color: fgColor } : {}]}>{text}</Text>
@@ -41,6 +44,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
     },
     container_TERTIARY: {},
+    container_DISABLED: {
+        color: "red",
+    },
     text: {
         fontWeight: "bold",
     },

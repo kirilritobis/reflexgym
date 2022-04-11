@@ -9,18 +9,25 @@ export const headers = {
 
 @injectable()
 export class AuthService implements IAuthService {
-    register = async (username: string, password: string, email: string): Promise<any> => {
+    register = async (email: string, password: string, phoneNumber: string): Promise<any> => {
         const data = {
-            username,
-            password,
             email,
+            password,
+            phoneNumber
         }
         return await axios.post(`${BASE_URL}api/create`, data, {headers});
     }
-    
-    login = async (username: string, password: string): Promise<any> => {
+
+    confirmAccount = async (code: string): Promise<any> => {
         const data = {
-            username,
+            code
+        }
+        return await axios.post(`${BASE_URL}api/account-confirm`, data, {headers});
+    }
+    
+    login = async (email: string, password: string): Promise<any> => {
+        const data = {
+            email,
             password,
         }
         return await axios.post(`${BASE_URL}api/login`, data, {headers});
