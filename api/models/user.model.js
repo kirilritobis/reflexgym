@@ -13,7 +13,7 @@ const {
 module.exports = function UserModel () {
     async function createUser (userData, adminUser, session) {
         try {
-            const randomToken = await crypto.randomBytes(64).toString('hex')
+            const randomToken = Math.floor(100000 + Math.random() * 900000)
             const q = {
                 email: userData.email
             }
@@ -27,7 +27,7 @@ module.exports = function UserModel () {
 
             const user = new UserSchema(userData)
             user.verifyAccountToken = randomToken
-            user.verifyAccountExpires = Date.now() + 15 * 60 * 1000
+            user.verifyAccountExpires = Date.now() + 1.5 * 60 * 1000
             // user.status = userStatus.INACTIVE
             // user.createdBy = adminUser._id
 
@@ -88,7 +88,7 @@ module.exports = function UserModel () {
         }
     }
 
-    async function setupPassword (token, password) {
+    async function setupPassword (token) {
         try {
             const q = {
                 verifyAccountToken: token
@@ -96,7 +96,6 @@ module.exports = function UserModel () {
 
             const user = await _findUser(q)
 
-            user.password = password
             user.verifyAccountToken = undefined
             user.verifyAccountExpires = undefined
             // if (user.status === userStatus.INACTIVE) {

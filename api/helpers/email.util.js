@@ -46,6 +46,7 @@ const emailTemplates = {
 
             return {
                 email: data.to,
+                token: data.token,
                 // verifyEmailUrl: data.token ? `${process.env.FE_URL}/account/password/setup/${data.token}/${data.uId}` : process.env.URL,
                 verifyEmailUrl: 'google.com',
                 firstName: data.firstName,

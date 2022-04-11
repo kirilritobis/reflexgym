@@ -17,7 +17,7 @@ const UserSchema = new Schema({
         type: mongoose.Schema.Types.String
         // required: true
     },
-    verifyAccountToken: String,
+    verifyAccountToken: Number,
     verifyAccountExpires: Date,
     resetPasswordToken: String,
     resetPasswordExpires: Date,
