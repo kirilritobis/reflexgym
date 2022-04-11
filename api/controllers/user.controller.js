@@ -43,7 +43,7 @@ module.exports = function UserController () {
     */
      async function setupPassword (req, res) {
         try {
-            const confirmationCode = Number(req.body.token)
+            const confirmationCode = Number(req.body.code)
             await UsersModel.setupPassword(confirmationCode)
             res.send({
                 status: 1,
