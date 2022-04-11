@@ -20,8 +20,12 @@ const [password, setPassword] = useState<string>("");
 const authService = useInjection<IAuthService>(TYPES.AuthService);
 
 const onSignInPressed = async () => {
-    await authService.login(username, password);
-    console.log("SignIn");
+    try {
+        // await authService.login(username, password);
+        navigation.navigate("Homepage");
+    } catch (error) {
+        console.warn("Login error.");
+    }
 }
 
 const onSignUpPressed = () => {
