@@ -1,6 +1,7 @@
-import axios from 'axios'
-import { injectable } from 'inversify'
-import { IAuthService } from '../../dependencies/model'
+import axios from 'axios';
+import { injectable } from 'inversify';
+import { IAuthService } from '../../dependencies/model';
+import * as SecureStore from 'expo-secure-store';
 
 export const BASE_URL = `http://${process.env.PUBLIC_IP}:8001/`;
 export const headers = {
@@ -30,6 +31,9 @@ export class AuthService implements IAuthService {
             email,
             password,
         }
-        return await axios.post(`${BASE_URL}api/login`, data, {headers});
+        return await (await axios.post(`${BASE_URL}api/login`, data, {headers})).data;
     }
 }
+
+// await SecureStore.setItemAsync("asd", "äsd2");
+// let result = await SecureStore.getItemAsync("asd");

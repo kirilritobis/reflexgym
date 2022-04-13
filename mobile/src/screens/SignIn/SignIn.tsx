@@ -15,20 +15,20 @@ interface SignInProps {
 
 const SignIn:FunctionComponent<SignInProps> = ({navigation}) => {
 const { height} = useWindowDimensions();
-const [username, setUsername] = useState<string>("");
+const [email, setEmail] = useState<string>("");
 const [password, setPassword] = useState<string>("");
 const authService = useInjection<IAuthService>(TYPES.AuthService);
 
 const onSignInPressed = async () => {
     try {
-        // await authService.login(username, password);
+        await authService.login(email, password);
         navigation.navigate("Homepage");
     } catch (error) {
         console.warn("Login error.");
     }
 }
 
-const onSignUpPressed = () => {
+const onSignUpPressed = async () => {
     navigation.navigate("SignUp");
 }
 
@@ -40,7 +40,7 @@ const onForgotPasswordPressed = async () => {
         <ScrollView>
         <View style={styles.root}>
             <Image source={Logo} style={[styles.logo, {height: height * 0.3}]} resizeMode="contain" />
-            <CustomInput placeholder="Username" value={username} setValue={setUsername} />
+            <CustomInput placeholder="Email" value={email} setValue={setEmail} />
             <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry />
             <CustomButton  text="Sign In" onPress={onSignInPressed} type="PRIMARY" />
             <CustomButton  text="Forgot password" onPress={onForgotPasswordPressed} type="TERTIARY" />
