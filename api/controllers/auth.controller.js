@@ -16,6 +16,10 @@ module.exports = function AuthController () {
                 }
                 const user = JSON.parse(JSON.stringify(result))
                 const activated = !user.verifyAccountToken
+                if (!activated) {
+                    res.send({ activated: activated })
+                    return
+                }
 
                 const accessToken = generateAccessToken(user)
                 const refreshToken = jwt.sign( { email: user.email }, process.env.REFRESH_TOKEN_SECRET )
