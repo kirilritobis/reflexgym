@@ -1,4 +1,4 @@
-// const passport = require('../boot/passport')
+const bcrypt = require('bcrypt')
 const EmailUtils = require('../helpers/email.util')
 
 const crypto = require('crypto')
@@ -28,6 +28,10 @@ module.exports = function UserModel () {
             const user = new UserSchema(userData)
             user.verifyAccountToken = randomToken
             user.verifyAccountExpires = Date.now() + 1.5 * 60 * 1000
+
+            const salt = await bcrypt.genSalt(10)
+            user.password = await bcrypt.hash(user.password, salt)
+
             // user.status = userStatus.INACTIVE
             // user.createdBy = adminUser._id
 

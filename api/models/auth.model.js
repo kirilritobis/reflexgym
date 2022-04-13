@@ -15,7 +15,7 @@ module.exports = function AuthModel () {
                     if (err) {
                         return callback(err)
                     }
-                    callback(null)
+                    callback(null, user)
                 })(userDataWrapper)
             } catch (error) {
                 throw error
