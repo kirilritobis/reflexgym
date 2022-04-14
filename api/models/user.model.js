@@ -200,11 +200,35 @@ module.exports = function UserModel () {
         }
     }
 
+    async function resendConfirmationCode (userEmail) {
+        try {
+            const q = {
+                email: userEmail
+            }
+            const existingUser = await UserSchema.findOne(q)
+            if (!existingUser) {
+                const err = new NotFound('User not found')
+                err.type = 'email'
+                err.datetime = new Date()
+                throw err
+            }
+            const randomToken = Math.floor(100000 + Math.random() * 900000)
+            existingUser.verifyAccountToken = randomToken
+            existingUser.verifyAccountExpires = Date.now() + 1.5 * 60 * 1000
+            await existingUser.save()
+            const emailTemplate = 'welcomeAD'
+            return await sendVerificationEmail(existingUser, emailTemplate)
+        } catch (err) {
+            throw err
+        }
+    }
+
     return {
         createUser,
         findOneByEmail,
         resetPassword,
         forgotPassword,
-        setupPassword
+        setupPassword,
+        resendConfirmationCode
     }
 }

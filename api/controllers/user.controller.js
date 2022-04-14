@@ -105,10 +105,24 @@ module.exports = function UserController () {
         }
     }
 
+    async function resendConfirmationCode (req, res) {
+        try {
+            const result = await UsersModel.resendConfirmationCode(req.body.email)
+            res.send({
+                message: 'A new confirmation code was sent'
+            })
+            return result
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res, err)
+        }
+    }
+
     return {
         createUser, 
         resetPassword,
         forgotPassword,
-        setupPassword
+        setupPassword,
+        resendConfirmationCode
     }
 }
