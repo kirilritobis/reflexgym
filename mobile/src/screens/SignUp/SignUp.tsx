@@ -6,6 +6,7 @@ import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
 import { IAuthService } from "../../dependencies/model";
 import { TYPES } from "../../dependencies/types";
+import { register } from "../../services/AuthService/AuthService";
 
 interface SignUpProps {
     navigation: any;
@@ -16,7 +17,6 @@ const SignUp: FunctionComponent<SignUpProps> = ({navigation}) => {
     const [password, setPassword] = useState<string>("");
     const [passwordRepeat, setPasswordRepeat] = useState<string>("");
     const [phoneNumber, setPhoneNumber] = useState<string>("");
-    const authService = useInjection<IAuthService>(TYPES.AuthService);
 
 const onSignInPressed = () => {
     navigation.navigate("SignIn")
@@ -24,16 +24,11 @@ const onSignInPressed = () => {
 
 const onRegisterPressed = async () => {
     try {
-        await authService.register(email, password, phoneNumber);
-        console.warn(process.env.PUBLIC_IP);
+        await register(email, password, phoneNumber);
+        navigation.navigate("ConfirmEmail")
     } catch (error: any) {
-        const test = error;
         console.warn(error.message)
     }
-}
-
-const onTestPressed = () => {
-    navigation.navigate("ConfirmEmail")
 }
 
     return (
@@ -46,7 +41,6 @@ const onTestPressed = () => {
             <CustomInput placeholder="Phone Number" value={phoneNumber} setValue={setPhoneNumber} />
             <CustomButton  text="Register" onPress={onRegisterPressed} type="PRIMARY" />
             <CustomButton  text="Have an account? Sign in" onPress={onSignInPressed} type="TERTIARY" />
-            <CustomButton  text="testtest" onPress={onTestPressed} type="TERTIARY" />
         </View>
         </ScrollView>
     )

@@ -1,5 +1,5 @@
 import { useInjection } from "inversify-react";
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useContext, useState } from "react";
 import {View, ScrollView, Image, StyleSheet, useWindowDimensions } from "react-native";
 import Logo from "../../../assets/images/Logo.png";
 import CustomButton from "../../components/CustomButton";
@@ -7,6 +7,9 @@ import CustomInput from "../../components/CustomInput";
 import { IAuthService } from "../../dependencies/model";
 import { TYPES } from "../../dependencies/types";
 import "reflect-metadata";
+import { login } from "../../services/AuthService/AuthService";
+import { AuthContext, extractUser } from "../../services/ContextService/ContextService";
+import * as SecureStore from 'expo-secure-store';
 
 
 interface SignInProps {
@@ -17,12 +20,21 @@ const SignIn:FunctionComponent<SignInProps> = ({navigation}) => {
 const { height} = useWindowDimensions();
 const [email, setEmail] = useState<string>("");
 const [password, setPassword] = useState<string>("");
-const authService = useInjection<IAuthService>(TYPES.AuthService);
+const { setLoginState } = useContext(AuthContext)
+// const authService = useInjection<IAuthService>(TYPES.AuthService);
 
 const onSignInPressed = async () => {
     try {
-        await authService.login(email, password);
-        navigation.navigate("Homepage");
+        const loginRes = await login(email, password);
+        if(!loginRes.activated) {
+            navigation.navigate("ConfirmEmail");
+        } else {
+            const user = extractUser(loginRes.accessToken) 
+            setLoginState({isLoggedIn: true, user})
+            await SecureStore.setItemAsync("token", loginRes.accessToken);
+            
+            navigation.navigate("Homepage");
+        }
     } catch (error) {
         console.warn("Login error.");
     }

@@ -6,15 +6,38 @@ import { Provider } from 'inversify-react';
 import { myContainer } from './src/dependencies/container'
 import { registerRootComponent } from 'expo';
 import { AppRegistry } from 'react-native';
+import { AuthContext, extractUser, getToken } from "./src/services/ContextService/ContextService"
+import { useEffect, useState } from 'react';
 
 
 export default function App() {
+  const [authValue, setAuthValue] = useState({
+    isLoggedIn: false,
+    user: { email: "", iat: 0, exp: 0 }
+  });
+
+  useEffect(() => {
+    (async () => {
+      const token = await getToken();
+      console.warn(token)
+      if(token) {
+        const { email, exp, iat } = extractUser(token);
+        setAuthValue({
+          isLoggedIn: true,
+          user: {email, exp, iat},
+        })
+      }
+    })()
+  }, [])
+
+
+
   return (
-    <Provider key={1} container={myContainer}>
+    <AuthContext.Provider value={{ ...authValue, setLoginState: setAuthValue }}>
     <View style={styles.container}>
       <Navigation />
     </View>
-    </Provider>
+    </AuthContext.Provider>
   );
 }
 const styles = StyleSheet.create({

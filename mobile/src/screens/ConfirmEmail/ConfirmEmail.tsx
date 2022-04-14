@@ -1,10 +1,13 @@
 import { useInjection } from "inversify-react";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useContext, useEffect, useState } from "react";
 import {View, ScrollView, Text, StyleSheet } from "react-native";
 import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
 import { IAuthService } from "../../dependencies/model";
 import { TYPES } from "../../dependencies/types";
+import { confirmAccount } from "../../services/AuthService/AuthService";
+import { AuthContext, extractUser } from "../../services/ContextService/ContextService";
+import * as SecureStore from 'expo-secure-store';
 
 interface ConfirmEmailProps {
     navigation: any;
@@ -13,7 +16,8 @@ interface ConfirmEmailProps {
 const ConfirmEmail: FunctionComponent<ConfirmEmailProps> = ({navigation}) => {
 const [code, setCode] = useState<string>("");
 const [timer, setTimer] = useState<number>(10);
-const authService = useInjection<IAuthService>(TYPES.AuthService);
+const { setLoginState } = useContext(AuthContext)
+// const authService = useInjection<IAuthService>(TYPES.AuthService);
 
 useEffect(() => {
     let interval = setInterval(() => {
@@ -28,7 +32,11 @@ useEffect(() => {
 
 const onConfirmPressed = async () => {
     try {
-        await authService.confirmAccount(code);
+        const response = await confirmAccount(code);
+        const user = extractUser(response.accessToken) 
+        setLoginState({isLoggedIn: true, user})
+        await SecureStore.setItemAsync("token", response.accessToken);
+
         navigation.navigate("Homepage");
     } catch (error) {
         console.warn("wrong code");

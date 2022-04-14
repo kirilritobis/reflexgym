@@ -1,17 +1,26 @@
-import React, { FunctionComponent, useState } from "react";
+import React, { FunctionComponent, useContext, useEffect, useState } from "react";
 import {View, ScrollView, Text, StyleSheet, useWindowDimensions } from "react-native";
 import Logo from "../../../assets/images/Logo.png";
 import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
+import { logout } from "../../services/AuthService/AuthService";
+import { AuthContext, getToken } from "../../services/ContextService/ContextService";
 
 interface HomepageProps {
     navigation: any;
 }
 
 const Homepage: FunctionComponent<HomepageProps> = ({navigation}) => {
+    const { user } = useContext(AuthContext)
 
-    const onOpenCardPressed = () => {
-        console.warn("opening cards")
+    const onOpenCardPressed = async () => {
+        const token = await getToken();
+        console.warn(token)
+    }
+
+    const onLogoutPressed = async () => {
+        const token = await logout();
+        navigation.navigate("SignIn");
     }
 
     return (
@@ -19,6 +28,7 @@ const Homepage: FunctionComponent<HomepageProps> = ({navigation}) => {
         <View style={styles.root}>
             <Text style={styles.title}>Homepage</Text>
             <CustomButton  text="Open my card" onPress={onOpenCardPressed} type="PRIMARY" />
+            <CustomButton  text="Logout" onPress={onLogoutPressed} type="PRIMARY" />
         </View>
         </ScrollView>
     )
