@@ -42,7 +42,7 @@ export const resendCode = async (email: string): Promise<void> => {
     const data = {
         email
     }
-    await axios.post(`${BASE_URL}api/account/resend-code`, data, {headers});
+    await axios.put(`${BASE_URL}api/account/resend-code`, data, {headers});
 }
 
 // @injectable()
