@@ -7,7 +7,7 @@ const logger = require('../utils/loggers/common.logger')
 const noUser = function (done) {
     logger.error('No user by the email')
     const error = {}
-    error.message = `<div>Sorry, your email address and/or password are incorrect. Please try again and if the issue still persists <a className={classes.linkPink} href="mailto:${process.env.MAIL_DEV}?subject=Login issue&body=   [Please describe here the issue you are facing.]">contact</a> the Control System team for further investigation.</div>`
+    error.message = `<div>Sorry, your email address and/or password are incorrect</div>`
     error.status = 'incorrectLogin'
     error.title = ''
     return done(error)
