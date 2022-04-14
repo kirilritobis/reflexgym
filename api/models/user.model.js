@@ -3,6 +3,7 @@ const EmailUtils = require('../helpers/email.util')
 
 const crypto = require('crypto')
 const UserSchema = require('../schemas/user.schema')
+const CardSchema = require('../schemas/card.schema')
 
 const {
     NotFound,
@@ -105,9 +106,16 @@ module.exports = function UserModel () {
             // if (user.status === userStatus.INACTIVE) {
             //     user.status = userStatus.ACTIVE
             // }
+            const newUser = await user.save()
 
-            await user.save()
-            return user
+            const card = new CardSchema()
+            if(!card){
+                throw new Error('Ooops something went wrong')
+            }
+            card.user = newUser.uId
+            await card.save()
+            
+            return { user, card }
         } catch (err) {
             throw err
         }

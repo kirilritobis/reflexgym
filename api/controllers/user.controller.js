@@ -46,13 +46,14 @@ module.exports = function UserController () {
      async function setupPassword (req, res) {
         try {
             const confirmationCode = Number(req.body.code)
-            const user = await UsersModel.setupPassword(confirmationCode)
+            const { user, card } = await UsersModel.setupPassword(confirmationCode)
             const { accessToken, refreshToken } = generateTokens(user)
             res.cookie('jwt', refreshToken, { httpOnly: true } )
             res.send({
                 status: 1,
                 message: "You have successfully created your password for EGT's Control System.",
                 title: 'Successful Registration!',
+                card: card,
                 accessToken: accessToken,
                 activated: true
             })
