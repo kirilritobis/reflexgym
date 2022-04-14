@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+const { generateTokens } = require('../helpers/tokenGenerator')
 // should be removed and put into envconfig
 require('dotenv').config()
 const AuthModel = require('../models/auth.model')()
@@ -20,13 +20,9 @@ module.exports = function AuthController () {
                     res.send({ activated: activated })
                     return
                 }
-
-                const accessToken = generateAccessToken(user)
-                const refreshToken = jwt.sign( { email: user.email }, process.env.REFRESH_TOKEN_SECRET )
+                const { accessToken, refreshToken } = generateTokens(user)
                 res.cookie('jwt', refreshToken, { httpOnly: true } )
-                // const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
                 res.send({ accessToken: accessToken, activated: activated })
-                // res.send(false)
             })
         } catch (err) {
             logger.error('%o', err)

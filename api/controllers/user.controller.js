@@ -5,6 +5,8 @@ const UsersModel = require('../models/user.model')()
 const logger = require('../utils/loggers/common.logger')
 const errorhandler = require('../helpers/errorHandler')()
 
+const { generateTokens } = require('../helpers/tokenGenerator')
+
 module.exports = function UserController () {
     /**
      * Create User
@@ -44,11 +46,15 @@ module.exports = function UserController () {
      async function setupPassword (req, res) {
         try {
             const confirmationCode = Number(req.body.code)
-            await UsersModel.setupPassword(confirmationCode)
+            const user = await UsersModel.setupPassword(confirmationCode)
+            const { accessToken, refreshToken } = generateTokens(user)
+            res.cookie('jwt', refreshToken, { httpOnly: true } )
             res.send({
                 status: 1,
                 message: "You have successfully created your password for EGT's Control System.",
-                title: 'Successful Registration!'
+                title: 'Successful Registration!',
+                accessToken: accessToken,
+                activated: true
             })
         } catch (err) {
             logger.error('%o', err)
