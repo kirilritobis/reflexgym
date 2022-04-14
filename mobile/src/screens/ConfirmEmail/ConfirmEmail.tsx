@@ -5,19 +5,19 @@ import CustomButton from "../../components/CustomButton";
 import CustomInput from "../../components/CustomInput";
 import { IAuthService } from "../../dependencies/model";
 import { TYPES } from "../../dependencies/types";
-import { confirmAccount } from "../../services/AuthService/AuthService";
+import { confirmAccount, resendCode } from "../../services/AuthService/AuthService";
 import { AuthContext, extractUser } from "../../services/ContextService/ContextService";
 import * as SecureStore from 'expo-secure-store';
 
 interface ConfirmEmailProps {
     navigation: any;
+    route: any;
 }
 
-const ConfirmEmail: FunctionComponent<ConfirmEmailProps> = ({navigation}) => {
+const ConfirmEmail: FunctionComponent<ConfirmEmailProps> = ({navigation, route}) => {
 const [code, setCode] = useState<string>("");
 const [timer, setTimer] = useState<number>(10);
 const { setLoginState } = useContext(AuthContext)
-// const authService = useInjection<IAuthService>(TYPES.AuthService);
 
 useEffect(() => {
     let interval = setInterval(() => {
@@ -47,8 +47,13 @@ const onSignInPressed = () => {
     navigation.navigate("SignIn")
 }
 
-const onResendPressed = () => {
-    console.warn("resend")
+const onResendPressed = async () => {
+    try {
+        await resendCode(route.params.email);
+        setTimer(10);
+    } catch (error) {
+        console.warn("There was a problem with resending code.")
+    }
 }
 
     return (

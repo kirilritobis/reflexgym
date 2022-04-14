@@ -25,7 +25,7 @@ const onSignInPressed = () => {
 const onRegisterPressed = async () => {
     try {
         await register(email, password, phoneNumber);
-        navigation.navigate("ConfirmEmail")
+        navigation.navigate("ConfirmEmail", {email})
     } catch (error: any) {
         console.warn(error.message)
     }

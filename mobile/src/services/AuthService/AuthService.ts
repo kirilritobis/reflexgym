@@ -38,6 +38,13 @@ export const logout = async (): Promise<void> => {
     await SecureStore.deleteItemAsync('token');
 }
 
+export const resendCode = async (email: string): Promise<void> => {
+    const data = {
+        email
+    }
+    await axios.post(`${BASE_URL}api/account/resend-code`, data, {headers});
+}
+
 // @injectable()
 // export class AuthService implements IAuthService {
 

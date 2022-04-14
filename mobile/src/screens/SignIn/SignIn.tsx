@@ -27,7 +27,7 @@ const onSignInPressed = async () => {
     try {
         const loginRes = await login(email, password);
         if(!loginRes.activated) {
-            navigation.navigate("ConfirmEmail");
+            navigation.navigate("ConfirmEmail", {email})
         } else {
             const user = extractUser(loginRes.accessToken) 
             setLoginState({isLoggedIn: true, user})
