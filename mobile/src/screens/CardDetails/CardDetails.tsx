@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { FunctionComponent, useEffect, useState } from 'react';
 import { extractUser, getToken } from '../../services/ContextService/ContextService';
+import { getCardDetails } from '../../services/UserService/UserService';
 
 
 
@@ -19,7 +20,9 @@ const CardDetails: FunctionComponent<CardDetailsProps> = ({navigation}) => {
             const token = await getToken();
             if(token) {
                 const user = extractUser(token);
+                await getCardDetails(user.cardNumber);
                 setCard(user.cardNumber);
+                
             }
 
         })()
