@@ -25,7 +25,7 @@ const CardSchema = new Schema({
     lastLoadedOn: {
         type: Date
     },
-    validUntil: {
+    expiresOn: {
         type: Date
     },
     createdOn: {
