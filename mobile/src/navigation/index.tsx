@@ -7,6 +7,7 @@ import NewPassword from '../screens/NewPassword';
 import { NavigationContainer } from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Homepage from "../screens/Homepage";
+import CardDetails from "../screens/CardDetails";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ const Navigation = () => {
                 <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
                 <Stack.Screen name="NewPassword" component={NewPassword} />
                 <Stack.Screen name="Homepage" component={Homepage} />
+                <Stack.Screen name="CardDetails" component={CardDetails} />
             </Stack.Navigator>
         </NavigationContainer>
     )

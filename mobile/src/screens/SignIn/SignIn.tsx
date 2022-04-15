@@ -35,8 +35,9 @@ const onSignInPressed = async () => {
             
             navigation.navigate("Homepage");
         }
-    } catch (error) {
-        console.warn("Login error.");
+    } catch (error: any) {
+        console.warn(error.message)
+        // console.warn("Login error.");
     }
 }
 

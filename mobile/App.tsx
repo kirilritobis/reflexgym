@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 export default function App() {
   const [authValue, setAuthValue] = useState({
     isLoggedIn: false,
-    user: { email: "", iat: 0, exp: 0 }
+    user: { userId: "", cardNumber: "", email: "", iat: 0, exp: 0 }
   });
 
   useEffect(() => {
@@ -21,10 +21,10 @@ export default function App() {
       const token = await getToken();
       console.warn(token)
       if(token) {
-        const { email, exp, iat } = extractUser(token);
+        const { userId, cardNumber, email, exp, iat } = extractUser(token);
         setAuthValue({
           isLoggedIn: true,
-          user: {email, exp, iat},
+          user: {userId, cardNumber, email, exp, iat},
         })
       }
     })()
