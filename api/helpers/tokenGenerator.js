@@ -10,7 +10,8 @@ async function generateTokens (user) {
         const card = await CardSchema.findOne(q)
         const accessTokenData = {
             email: user.email,
-            cardNumber: card.uId
+            cardNumber: card.uId,
+            userId: user.uId
         }
         const accessToken = jwt.sign( accessTokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '7d'})
         const refreshToken = jwt.sign( { email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d'})
