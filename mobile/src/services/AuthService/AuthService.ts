@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { injectable } from 'inversify';
 import { IAuthService } from '../../dependencies/model';
 import * as SecureStore from 'expo-secure-store';
 import { isTokenExpired } from '../../utils/tokenUtil';
