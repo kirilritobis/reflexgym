@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const cors = require('cors');
 
 const accountRoutes = require('./routes/account')
+const cardRoutes = require('./routes/card')
 
 // const productRoutes = require("./api/routes/products");
 // const orderRoutes = require("./api/routes/orders");
@@ -62,7 +63,7 @@ app.get('/', (req, res)=>{
 // app.use('/api', activityLogRoutes)
 app.use('/api', accountRoutes)
 // app.use('/api/users', userRoutes)
-// app.use('/api/meters', metersRoutes)
+app.use('/api/cards', cardRoutes)
 // app.use('/api/locations', locationRoutes)
 // app.use('/api/groupmembers', groupMemberRoutes)
 // app.use('/api/platforms', platformRoutes)
