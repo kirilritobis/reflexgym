@@ -14,12 +14,11 @@ const Homepage: FunctionComponent<HomepageProps> = ({navigation}) => {
     const { user } = useContext(AuthContext)
 
     const onOpenCardPressed = async () => {
-        const token = await getToken();
-        console.warn(token)
+        navigation.navigate("CardDetails");
     }
 
     const onLogoutPressed = async () => {
-        const token = await logout();
+        await logout();
         navigation.navigate("SignIn");
     }
 
