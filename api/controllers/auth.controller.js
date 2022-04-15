@@ -10,7 +10,7 @@ module.exports = function AuthController () {
     // Auth routes
     async function authLocal (req, res, next) {
         try {
-            await AuthModel.authLocal(req.body, (err, result) => {
+            await AuthModel.authLocal(req.body, async (err, result) => {
                 if (err) {
                     return errorhandler.sendError(err, req, res, err.status ? err : '')
                 }
@@ -20,7 +20,7 @@ module.exports = function AuthController () {
                     res.send({ activated: activated })
                     return
                 }
-                const { accessToken, refreshToken } = generateTokens(user)
+                const { accessToken, refreshToken } = await generateTokens(user)
                 res.cookie('jwt', refreshToken, { httpOnly: true } )
                 res.send({ accessToken: accessToken, activated: activated })
             })

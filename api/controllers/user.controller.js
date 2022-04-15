@@ -47,7 +47,7 @@ module.exports = function UserController () {
         try {
             const confirmationCode = Number(req.body.code)
             const { user, card } = await UsersModel.setupPassword(confirmationCode)
-            const { accessToken, refreshToken } = generateTokens(user)
+            const { accessToken, refreshToken } = await generateTokens(user)
             res.cookie('jwt', refreshToken, { httpOnly: true } )
             res.send({
                 status: 1,
