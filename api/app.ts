@@ -1,4 +1,10 @@
-const express = require("express");
+// const express = require("express");
+import express, { Request, Response, NextFunction } from 'express'
+
+const {
+  NotFound
+} = require('./helpers/error-handling')
+
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
@@ -33,7 +39,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); 
 
-app.use((req, res, next) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -51,7 +57,7 @@ app.use((req, res, next) => {
 // app.use("/orders", orderRoutes);
 // app.use("/user", userRoutes);
 
-app.get('/', (req, res)=>{
+app.get('/', (req: Request, res: Response)=>{
     res.render('register.ejs')
 })
 
@@ -81,13 +87,14 @@ app.use('/api/cards', cardRoutes)
 // app.use('/api/ucas-coverage', ucasCoverageRoutes)
 
 
-app.use((req, res, next) => {
-  const error = new Error("Not found");
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const error = new NotFound()
+  // const error = new Error("Not found");
   error.status = 404;
   next(error);
 });
 
-app.use((error, req, res, next) => {
+app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   res.status(error.status || 500);
   res.json({
     error: {
