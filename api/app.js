@@ -1,5 +1,4 @@
-// const express = require("express");
-import express, { Request, Response, NextFunction } from 'express'
+const express = require("express");
 
 const {
   NotFound
@@ -13,10 +12,10 @@ const cors = require('cors');
 
 const accountRoutes = require('./routes/account')
 const cardRoutes = require('./routes/card')
+const userRoutes = require('./routes/user')
 
 // const productRoutes = require("./api/routes/products");
 // const orderRoutes = require("./api/routes/orders");
-// const userRoutes = require('./api/routes/user');
 
 // const mongodb = "mongodb+srv://kitodorovAdmin:100Kilatashaci@cluster0.6c3aq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
@@ -39,7 +38,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); 
 
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -57,7 +56,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // app.use("/orders", orderRoutes);
 // app.use("/user", userRoutes);
 
-app.get('/', (req: Request, res: Response)=>{
+app.get('/', (req, res)=>{
     res.render('register.ejs')
 })
 
@@ -68,7 +67,7 @@ app.get('/', (req: Request, res: Response)=>{
 // app.use('/api', routes)
 // app.use('/api', activityLogRoutes)
 app.use('/api', accountRoutes)
-// app.use('/api/users', userRoutes)
+app.use('/api/users', userRoutes)
 app.use('/api/cards', cardRoutes)
 // app.use('/api/locations', locationRoutes)
 // app.use('/api/groupmembers', groupMemberRoutes)
@@ -87,14 +86,14 @@ app.use('/api/cards', cardRoutes)
 // app.use('/api/ucas-coverage', ucasCoverageRoutes)
 
 
-app.use((req: Request, res: Response, next: NextFunction) => {
+app.use((req, res, next) => {
   const error = new NotFound()
   // const error = new Error("Not found");
   error.status = 404;
   next(error);
 });
 
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
+app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
     error: {
