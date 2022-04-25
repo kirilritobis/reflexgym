@@ -1,6 +1,9 @@
 // Models
 const CardsModel = require('../models/card.model')()
 
+const logger = require('../utils/loggers/common.logger')
+const errorhandler = require('../helpers/errorHandler')()
+
 module.exports = function CardController () {
     async function getCardData (req, res) {
         try {
@@ -16,7 +19,8 @@ module.exports = function CardController () {
     // TODO be finished
     async function getAllUsersCards (req, res) {
         try {
-            return await CardsModel.getAllUsersCards()
+            const result = await CardsModel.getAllUsersCards()
+            res.send(result)
         } catch (err) {
             logger.error('%o', err)
             return errorhandler.sendError(err, req, res)

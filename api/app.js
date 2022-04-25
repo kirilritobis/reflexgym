@@ -1,4 +1,9 @@
 const express = require("express");
+
+const {
+  NotFound
+} = require('./helpers/error-handling')
+
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
@@ -7,10 +12,10 @@ const cors = require('cors');
 
 const accountRoutes = require('./routes/account')
 const cardRoutes = require('./routes/card')
+const userRoutes = require('./routes/user')
 
 // const productRoutes = require("./api/routes/products");
 // const orderRoutes = require("./api/routes/orders");
-// const userRoutes = require('./api/routes/user');
 
 // const mongodb = "mongodb+srv://kitodorovAdmin:100Kilatashaci@cluster0.6c3aq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
@@ -62,7 +67,7 @@ app.get('/', (req, res)=>{
 // app.use('/api', routes)
 // app.use('/api', activityLogRoutes)
 app.use('/api', accountRoutes)
-// app.use('/api/users', userRoutes)
+app.use('/api/users', userRoutes)
 app.use('/api/cards', cardRoutes)
 // app.use('/api/locations', locationRoutes)
 // app.use('/api/groupmembers', groupMemberRoutes)
@@ -82,7 +87,8 @@ app.use('/api/cards', cardRoutes)
 
 
 app.use((req, res, next) => {
-  const error = new Error("Not found");
+  const error = new NotFound()
+  // const error = new Error("Not found");
   error.status = 404;
   next(error);
 });

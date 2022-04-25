@@ -32,8 +32,26 @@ module.exports = function CardModel () {
         }
     }
 
+    // TODO be finished
+    async function getCardDetails () {
+        try {
+            return await CardSchema.aggregate([
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'user',
+                        foreignField: 'uId',
+                        as: 'userData'
+                    }
+                }])
+        } catch (err) {
+            throw err
+        }
+    }
+
     return {
         getCardData,
-        getAllUsersCards
+        getAllUsersCards,
+        getCardDetails
     }
 }

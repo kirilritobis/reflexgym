@@ -223,12 +223,21 @@ module.exports = function UserModel () {
         }
     }
 
+    async function getUsers () {
+        try {
+            return await UserSchema.find({})
+        } catch (err) {
+            throw err
+        }
+    }
+
     return {
         createUser,
         findOneByEmail,
         resetPassword,
         forgotPassword,
         setupPassword,
-        resendConfirmationCode
+        resendConfirmationCode,
+        getUsers
     }
 }

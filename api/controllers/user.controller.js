@@ -118,11 +118,23 @@ module.exports = function UserController () {
         }
     }
 
+    async function getAll (req, res) {
+        try {
+            const users = await UsersModel.getUsers()
+            res.send(users)
+            return users
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res, err)
+        }
+    }
+
     return {
         createUser, 
         resetPassword,
         forgotPassword,
         setupPassword,
-        resendConfirmationCode
+        resendConfirmationCode,
+        getAll 
     }
 }
