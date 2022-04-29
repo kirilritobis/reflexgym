@@ -6,7 +6,6 @@ const CardCtrl = require('../controllers/card.controller')()
 
 // Middlewares
 import { verifyToken } from '../middlewares/auth.middleware'
-// const verifyToken = require('../middlewares/auth.middleware')
 
 router.route('/:cardId')
     .get(verifyToken, CardCtrl.getCardData)
