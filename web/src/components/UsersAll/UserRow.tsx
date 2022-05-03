@@ -9,13 +9,14 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import UserDetailsExpanded from "./UserDetailsExpanded";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
+import { IUserRestRaw } from "../../services/UsersService/model";
 
 interface UserRowProps {
-  row: any;
+  user: IUserRestRaw;
 }
 
 const UserRow: FunctionComponent<UserRowProps> = (props) => {
-  const { row } = props;
+  const { user } = props;
   const [open, setOpen] = useState<boolean>(false);
 
   return (
@@ -38,10 +39,10 @@ const UserRow: FunctionComponent<UserRowProps> = (props) => {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.name}
+          user.name
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
+        <TableCell>{user.email}</TableCell>
+        <TableCell>{user.phone}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
