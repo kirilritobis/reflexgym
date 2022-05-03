@@ -231,6 +231,23 @@ module.exports = function UserModel () {
         }
     }
 
+    async function getUserById (uId) {
+        try {
+            const q = {
+                uId: uId
+            }
+
+            const user = await UserSchema.findOne(q)
+            if(!user){
+                throw new NotFound('User not found')
+            }
+
+            return user
+        } catch (err) {
+            throw err
+        }
+    }
+
     return {
         createUser,
         findOneByEmail,
@@ -238,6 +255,7 @@ module.exports = function UserModel () {
         forgotPassword,
         setupPassword,
         resendConfirmationCode,
-        getUsers
+        getUsers,
+        getUserById
     }
 }

@@ -11,4 +11,7 @@ import { verifyToken } from '../middlewares/auth.middleware'
 router.route('/getAll')
     .get(verifyToken, UserCtrl.getAll)
 
+router.route('/:userUid')
+    .get(verifyToken, UserCtrl.getUserByUid)
+
 module.exports = router
