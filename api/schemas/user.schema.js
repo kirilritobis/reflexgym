@@ -25,6 +25,14 @@ const UserSchema = new Schema({
         type: String,
         trim: true
     },
+    firstName: {
+        type: String,
+        trim: true
+    },
+    lastName: {
+        type: String,
+        trim: true
+    },
     phone: {
         type: mongoose.Schema.Types.String
         // required: true

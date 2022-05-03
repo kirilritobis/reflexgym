@@ -129,12 +129,25 @@ module.exports = function UserController () {
         }
     }
 
+    async function getUserByUid (req, res) {
+        try {
+            const userUid = req.params.userUid
+            const users = await UsersModel.getUserById(userUid)
+            res.send(users)
+            return users
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res, err)
+        }
+    }
+
     return {
         createUser, 
         resetPassword,
         forgotPassword,
         setupPassword,
         resendConfirmationCode,
-        getAll 
+        getAll,
+        getUserByUid
     }
 }

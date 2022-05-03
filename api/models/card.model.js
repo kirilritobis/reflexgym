@@ -16,34 +16,16 @@ module.exports = function CardModel () {
     }
 
     // TODO be finished
-    async function getAllUsersCards () {
+    async function getCardByUserUid (userUid) {
         try {
-            return await CardSchema.aggregate([
-                {
-                    $lookup: {
-                        from: 'users',
-                        localField: 'user',
-                        foreignField: 'uId',
-                        as: 'userData'
-                    }
-                }])
-        } catch (err) {
-            throw err
-        }
-    }
-
-    // TODO be finished
-    async function getCardDetails () {
-        try {
-            return await CardSchema.aggregate([
-                {
-                    $lookup: {
-                        from: 'users',
-                        localField: 'user',
-                        foreignField: 'uId',
-                        as: 'userData'
-                    }
-                }])
+            const q = {
+                user: userUid
+            }
+            const card = await CardSchema.findOne(q)
+            if(!card){
+                throw new Error('No such card')
+            }
+            return card
         } catch (err) {
             throw err
         }
@@ -51,7 +33,6 @@ module.exports = function CardModel () {
 
     return {
         getCardData,
-        getAllUsersCards,
-        getCardDetails
+        getCardByUserUid
     }
 }

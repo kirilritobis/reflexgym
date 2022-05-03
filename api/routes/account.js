@@ -153,8 +153,6 @@ router.route('/recover-password/')
 router.route('/account/resend-code')
     .put(/*isAuth, apiPermissions, TrimRequest.body, createUserValidation,*/ UserCtrl.resendConfirmationCode)
 
-
-
 router.route('/test')
     .get(authenticateToken, (req, res) => {
         res.send('Successful login')
