@@ -4,12 +4,17 @@ import "./App.css";
 import Login from "./components/Login/Login";
 import UserDialog from "./components/UserDialog/UserDialog";
 import UsersAll from "./components/UsersAll/UsersAll";
+import { uploadImage } from "./services/UsersService/UsersService";
 
 function App() {
   const [userCardNumber, setUserCardNumber] = useState<string>("");
+  const handleClick = async (): Promise<void> => {
+    await uploadImage("asd");
+  };
   return (
     <div className="App">
       <button onClick={() => setUserCardNumber("korten")}>asd</button>
+      <button onClick={handleClick}>qwe</button>
       <BrowserRouter>
         <UserDialog
           userCardNumber={userCardNumber}
