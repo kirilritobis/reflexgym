@@ -39,7 +39,7 @@ const UserRow: FunctionComponent<UserRowProps> = (props) => {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          user.name
+          {user.firstName} {user.lastName}
         </TableCell>
         <TableCell>{user.email}</TableCell>
         <TableCell>{user.phone}</TableCell>
@@ -49,8 +49,9 @@ const UserRow: FunctionComponent<UserRowProps> = (props) => {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                {user.firstName} {user.lastName}
               </Typography>
+              {/* <UserDetailsExpanded userId={user.uId} /> */}
               <UserDetailsExpanded />
             </Box>
           </Collapse>
