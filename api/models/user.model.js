@@ -1,9 +1,11 @@
 const bcrypt = require('bcrypt')
 const EmailUtils = require('../helpers/email.util')
+const multer = require('multer')
 
 const crypto = require('crypto')
 const UserSchema = require('../schemas/user.schema')
 const CardSchema = require('../schemas/card.schema')
+const ImageSchema = require('../schemas/image.schema')
 
 const {
     NotFound,
@@ -248,6 +250,31 @@ module.exports = function UserModel () {
         }
     }
 
+    async function uploadFacePhoto (imageData, storage) {
+        try {
+              //upload parameters for multer
+              const upload = multer({
+                storage: storage,
+              }).single('image');
+
+              upload(req, res, function (err) {
+                const newImage = new ImageSchema({
+                    image: {
+                        data: imageData,
+                        contentType: 'image/png'
+                    }
+                })
+    
+                newImage.save()
+                // Everything went fine.
+              })
+
+            return 'kur'
+        } catch (err) {
+            throw err
+        }
+    }
+
     return {
         createUser,
         findOneByEmail,
@@ -256,6 +283,7 @@ module.exports = function UserModel () {
         setupPassword,
         resendConfirmationCode,
         getUsers,
-        getUserById
+        getUserById,
+        uploadFacePhoto
     }
 }
