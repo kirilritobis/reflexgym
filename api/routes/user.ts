@@ -12,7 +12,7 @@ import { verifyToken } from '../middlewares/auth.middleware'
 import { upload } from '../middlewares/file-uploader';
 
 router.route('/getAll')
-    .get(verifyToken, UserCtrl.getAll)
+    .get(/*verifyToken,*/ UserCtrl.getAll)
 
 router.route('/:userUid')
     .get(verifyToken, UserCtrl.getUserByUid)
