@@ -146,32 +146,6 @@ module.exports = function UserController () {
 
     async function uploadFacePhoto (req, res) {
         try {
-            const storage = multer.diskStorage({
-                //destination for files
-                destination: 'uploads',
-                filename: (req, file , cb) => {
-                    cb(null, file.originalname);
-                },
-              });
-              
-              //upload parameters for multer
-              const upload = multer({
-                storage: storage,
-              }).single('image');  
-
-            upload(req, res, function (err) {
-
-            const newImage = new ImageSchema({
-                image: {
-                    data: req.file.filename,
-                    contentType: 'image/png'
-                }
-            })
-
-                newImage.save()
-                // Everything went fine.
-              })
-
             res.send('New image uploaded')
             return 'kur'
         } catch (err) {
@@ -188,6 +162,6 @@ module.exports = function UserController () {
         resendConfirmationCode,
         getAll,
         getUserByUid,
-        uploadFacePhoto
+        uploadFacePhoto,
     }
 }

@@ -9,6 +9,7 @@ const ImageSchema = require('../schemas/image.schema')
 
 // Middlewares
 import { verifyToken } from '../middlewares/auth.middleware'
+import { upload } from '../middlewares/file-uploader';
 
 router.route('/getAll')
     .get(verifyToken, UserCtrl.getAll)
@@ -17,5 +18,8 @@ router.route('/:userUid')
     .get(verifyToken, UserCtrl.getUserByUid)
 
 router.route('/bahur/uploadPhotoTest')
-  .post(UserCtrl.uploadFacePhoto)
+  .post(upload('users').single('image'), UserCtrl.uploadFacePhoto)
+
+// router.route('/hhh/getImages').get(UserCtrl.getImages)
+
 module.exports = router
