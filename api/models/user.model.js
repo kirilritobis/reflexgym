@@ -227,7 +227,36 @@ module.exports = function UserModel () {
 
     async function getUsers () {
         try {
-            return await UserSchema.find({})
+            return await CardSchema.aggregate([{
+                $match: {}
+            },
+            {
+                $lookup:
+                  {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: 'uId',
+                    as: 'userData'
+                  }
+             },
+             {
+                $unwind: {
+                    path: '$userData',
+                    // preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $project: {
+                    email: '$userData.email',
+                    phone: '$userData.phone',
+                    uId: '$userData.uId',
+                    lastADLoginStatus: '$userData.lastADLoginStatus',
+                    firstName: '$userData.firstName',
+                    lastName: '$userData.lastName',
+                    cardNumber: '$uId'        
+                }
+            }
+        ])
         } catch (err) {
             throw err
         }
