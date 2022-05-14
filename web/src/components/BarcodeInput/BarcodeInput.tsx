@@ -19,6 +19,10 @@ interface BarcodeInputProps {}
 const BarcodeInput: FunctionComponent<BarcodeInputProps> = (props) => {
   const [userCardNumberInput, setUserCardNumberInput] = useState<string>("");
   const [userCardNumber, setUserCardNumber] = useState<string>("");
+  const input = document.getElementById("barcode-input");
+  document.addEventListener("keypress", () => {
+    input?.focus();
+  });
 
   const handleBarcodeScannerInput = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
