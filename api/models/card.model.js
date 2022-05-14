@@ -15,13 +15,41 @@ module.exports = function CardModel () {
         }
     }
 
-    // TODO be finished
+    // TODO can be unified by search query with getAll
     async function getCardByUserUid (cardNumber) {
         try {
-            const q = {
-                uId: cardNumber
+            const card = await CardSchema.aggregate([{
+                $match: {
+                    uId: cardNumber
+                }
+            },
+            {
+                $lookup:
+                  {
+                    from: 'users',
+                    localField: 'user',
+                    foreignField: 'uId',
+                    as: 'userData'
+                  }
+             },
+             {
+                $unwind: {
+                    path: '$userData',
+                    // preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $project: {
+                    email: '$userData.email',
+                    phone: '$userData.phone',
+                    uId: '$userData.uId',
+                    lastADLoginStatus: '$userData.lastADLoginStatus',
+                    firstName: '$userData.firstName',
+                    lastName: '$userData.lastName',
+                    cardNumber: '$uId'        
+                }
             }
-            const card = await CardSchema.findOne(q)
+        ])
             if(!card){
                 throw new Error('No such card')
             }

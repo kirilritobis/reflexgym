@@ -11,6 +11,6 @@ router.route('/:cardId')
     .get(verifyToken, CardCtrl.getCardData)
 
 router.route('/detailsByUser/:cardNumber')
-    .get(verifyToken, CardCtrl.getCardByUserUid)
+    .get(/*verifyToken,*/ CardCtrl.getCardByUserUid)
 
 module.exports = router
