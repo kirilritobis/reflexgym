@@ -10,7 +10,7 @@ import { verifyToken } from '../middlewares/auth.middleware'
 router.route('/:cardId')
     .get(verifyToken, CardCtrl.getCardData)
 
-router.route('/detailsByUser/:userUid')
+router.route('/detailsByUser/:cardNumber')
     .get(verifyToken, CardCtrl.getCardByUserUid)
 
 module.exports = router

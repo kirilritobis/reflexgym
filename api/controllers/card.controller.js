@@ -18,7 +18,7 @@ module.exports = function CardController () {
 
     async function getCardByUserUid (req, res) {
         try {
-            const userUid = Number(req.params.userUid)
+            const userUid = Number(req.params.cardNumber)
             const card = await CardsModel.getCardByUserUid(userUid)
             res.send(card)
         } catch (err) {
