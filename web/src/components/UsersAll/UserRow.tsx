@@ -54,7 +54,7 @@ const UserRow: FunctionComponent<UserRowProps> = (props) => {
               <Typography variant="h6" gutterBottom component="div">
                 {user.firstName} {user.lastName}
               </Typography>
-              <UserDetailsExpanded userId={user.uId} />
+              <UserDetailsExpanded cardNumber={user.cardNumber} />
             </Box>
           </Collapse>
         </TableCell>

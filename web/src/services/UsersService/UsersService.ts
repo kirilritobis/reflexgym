@@ -24,5 +24,11 @@ export const uploadImage = async (formData: FormData): Promise<any> => {
 export const loadUserByCardNumber = async (
   cardNumber: string
 ): Promise<any> => {
-  return "user";
+  const response = await fetch(
+    `${BASE_URL}api/cards/detailsByUser/${cardNumber}`,
+    {
+      headers,
+    }
+  );
+  return response.json();
 };

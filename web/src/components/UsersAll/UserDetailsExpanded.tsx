@@ -1,15 +1,23 @@
 import { Button } from "@mui/material";
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { uploadImage } from "../../services/UsersService/UsersService";
+import {
+  loadUserByCardNumber,
+  uploadImage,
+} from "../../services/UsersService/UsersService";
 
 import "./UserDetailsExpanded.css";
 
 interface UsersExpandedProps {
-  userId: string;
+  cardNumber: string;
 }
 
 const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    (async () => {
+      const userDetails = await loadUserByCardNumber(props.cardNumber);
+      console.log(userDetails);
+    })();
+  }, []);
 
   const handleImageAdd = async (files: FileList | null) => {
     const file = files![0];
