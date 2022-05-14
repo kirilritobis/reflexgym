@@ -12,20 +12,22 @@ interface UsersExpandedProps {
 }
 
 const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
+  const [userDetails, setUserDetails] = useState<any>({});
+
   useEffect(() => {
     (async () => {
       const userDetails = await loadUserByCardNumber(props.cardNumber);
-      console.log(userDetails);
+      setUserDetails(userDetails[0]);
     })();
   }, []);
 
   const handleImageAdd = async (files: FileList | null) => {
     const file = files![0];
-    console.log(file.type);
     const imageFile = new FormData();
     imageFile.append("image", file);
     await uploadImage(imageFile);
   };
+  console.log(userDetails);
   return (
     <div className="expanded-user-container">
       {/* <img
@@ -35,8 +37,8 @@ const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
         width="200"
       ></img> */}
       <div className="expanded-user-info">
-        <div>email: </div>
-        <div>phone: </div>
+        <div>email: {userDetails.email}</div>
+        <div>phone: {userDetails.phone}</div>
         <Button variant="contained" component="label">
           Upload File
           <input

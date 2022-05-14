@@ -1,19 +1,17 @@
 // const express = require("express");
-import express, { Request, Response, NextFunction } from 'express'
+import express, { Request, Response, NextFunction } from "express";
 
-const {
-  NotFound
-} = require('./helpers/error-handling')
+const { NotFound } = require("./helpers/error-handling");
 
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const cors = require('cors');
+const cors = require("cors");
 
-const accountRoutes = require('./routes/account')
-const cardRoutes = require('./routes/card')
-const userRoutes = require('./routes/user')
+const accountRoutes = require("./routes/account");
+const cardRoutes = require("./routes/card");
+const userRoutes = require("./routes/user");
 
 // const productRoutes = require("./api/routes/products");
 // const orderRoutes = require("./api/routes/orders");
@@ -31,13 +29,13 @@ const userRoutes = require('./routes/user')
 //     .catch((err)=>console.log(err))
 
 app.use(cors());
-app.set("view-engine", "ejs")
+app.set("view-engine", "ejs");
 // app.use(express.urlencoded({ extended: false }))
-
+app.use(express.static("uploads/users"));
 app.use(morgan("dev"));
 // app.use('/uploads', express.static('uploads'));
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -57,9 +55,9 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // app.use("/orders", orderRoutes);
 // app.use("/user", userRoutes);
 
-app.get('/', (req: Request, res: Response)=>{
-    res.render('register.ejs')
-})
+app.get("/", (req: Request, res: Response) => {
+  res.render("register.ejs");
+});
 
 // app.get('/login', (req, res)=>{
 //     res.render('register.ejs')
@@ -67,9 +65,9 @@ app.get('/', (req: Request, res: Response)=>{
 
 // app.use('/api', routes)
 // app.use('/api', activityLogRoutes)
-app.use('/api', accountRoutes)
-app.use('/api/users', userRoutes)
-app.use('/api/cards', cardRoutes)
+app.use("/api", accountRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/cards", cardRoutes);
 // app.use('/api/locations', locationRoutes)
 // app.use('/api/groupmembers', groupMemberRoutes)
 // app.use('/api/platforms', platformRoutes)
@@ -86,9 +84,8 @@ app.use('/api/cards', cardRoutes)
 // app.use('/api/roles', roleRoutes)
 // app.use('/api/ucas-coverage', ucasCoverageRoutes)
 
-
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const error = new NotFound()
+  const error = new NotFound();
   // const error = new Error("Not found");
   error.status = 404;
   next(error);
@@ -98,8 +95,8 @@ app.use((error: any, req: Request, res: Response, next: NextFunction) => {
   res.status(error.status || 500);
   res.json({
     error: {
-      message: error.message
-    }
+      message: error.message,
+    },
   });
 });
 
