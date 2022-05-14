@@ -39,7 +39,10 @@ const UserSchema = new Schema({
     },
     password: {
         type: String
-    }
+    },
+    profilePic: {
+        type: String
+    },
 })
 
 // encrypt the password && 2FA secret and make it unreadable

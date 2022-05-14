@@ -46,7 +46,8 @@ module.exports = function CardModel () {
                     lastADLoginStatus: '$userData.lastADLoginStatus',
                     firstName: '$userData.firstName',
                     lastName: '$userData.lastName',
-                    cardNumber: '$uId'        
+                    cardNumber: '$uId',
+                    profilePic: { $concat: [`${process.env.URL}/`, '$userData.profilePic'] }
                 }
             }
         ])
