@@ -33,12 +33,8 @@ const UsersAll: FunctionComponent<UsersAllProps> = () => {
   useEffect(() => {
     (async () => {
       const allUsers = await getAll();
-      //should be removed soon
-      const allUsersTest = allUsers.map((el) => {
-        return { ...el, cardNumber: "cardNumber" };
-      });
-      setAllUsers(allUsersTest);
-      setDisplayedUsers(allUsersTest);
+      setAllUsers(allUsers);
+      setDisplayedUsers(allUsers);
     })();
   }, []);
 
