@@ -17,7 +17,7 @@ router.route('/getAll')
 router.route('/:userUid')
     .get(verifyToken, UserCtrl.getUserByUid)
 
-router.route('/bahur/uploadPhotoTest')
+router.route('/uploadPhoto')
   .post(upload('users').single('image'), UserCtrl.uploadFacePhoto)
 
 // router.route('/hhh/getImages').get(UserCtrl.getImages)
