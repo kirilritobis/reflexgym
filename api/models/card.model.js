@@ -16,10 +16,10 @@ module.exports = function CardModel () {
     }
 
     // TODO be finished
-    async function getCardByUserUid (userUid) {
+    async function getCardByUserUid (cardNumber) {
         try {
             const q = {
-                user: userUid
+                uId: cardNumber
             }
             const card = await CardSchema.findOne(q)
             if(!card){
