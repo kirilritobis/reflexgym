@@ -47,7 +47,21 @@ module.exports = function CardModel () {
                     firstName: '$userData.firstName',
                     lastName: '$userData.lastName',
                     cardNumber: '$uId',
-                    profilePic: { $concat: [`${process.env.URL}/`, '$userData.profilePic'] }
+                    profilePic: { $concat: [`${process.env.URL}/`, '$userData.profilePic'] },
+                    chargedOn: '$chargedOn',
+                    expiresOn: '$expiresOn',
+                    expired: {
+                        $cond: {
+                            if: {
+                                $or: [
+                                     {$lt: [new Date(Date.now()), '$chargedOn']},
+                                     {$gt: [new Date(Date.now()), '$expiresOn']}
+                                ]
+                            },
+                            then: true,
+                            else: false
+                        }
+                    }
                 }
             }
         ])
