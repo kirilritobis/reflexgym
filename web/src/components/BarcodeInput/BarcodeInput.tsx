@@ -30,8 +30,8 @@ const BarcodeInput: FunctionComponent<BarcodeInputProps> = (props) => {
     event: React.KeyboardEvent<HTMLDivElement>
   ): Promise<void> => {
     if (event.key === "Enter") {
-      const user = await loadUserByCardNumber(userCardNumberInput);
-      setUserCardNumber(user);
+      await loadUserByCardNumber(userCardNumberInput);
+      setUserCardNumber(userCardNumberInput);
     }
   };
 
