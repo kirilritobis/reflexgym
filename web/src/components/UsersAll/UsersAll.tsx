@@ -25,6 +25,7 @@ interface UsersAllProps {}
 const UsersAll: FunctionComponent<UsersAllProps> = () => {
   const [allUsers, setAllUsers] = useState<Array<IUserRestRaw>>([]);
   const [displayedUsers, setDisplayedUsers] = useState<Array<IUserRestRaw>>([]);
+  const [searchByCardNumber, setSearchByCardNumber] = useState<string>("");
   const [searchByName, setSearchByName] = useState<string>("");
   const [searchByEmail, setSearchByEmail] = useState<string>("");
   const [searchByPhone, setSearchByPhone] = useState<string>("");
@@ -32,17 +33,29 @@ const UsersAll: FunctionComponent<UsersAllProps> = () => {
   useEffect(() => {
     (async () => {
       const allUsers = await getAll();
-      setAllUsers(allUsers);
-      setDisplayedUsers(allUsers);
+      //should be removed soon
+      const allUsersTest = allUsers.map((el) => {
+        return { ...el, cardNumber: "cardNumber" };
+      });
+      setAllUsers(allUsersTest);
+      setDisplayedUsers(allUsersTest);
     })();
   }, []);
+
+  const handleSearchByCardNumber = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { value } = event.target;
+    setSearchByCardNumber(value);
+    filterUsers(value, searchByName, searchByEmail, searchByPhone);
+  };
 
   const handleSearchByName = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { value } = event.target;
     setSearchByName(value);
-    filterUsers(value, searchByEmail, searchByPhone);
+    filterUsers(searchByCardNumber, value, searchByEmail, searchByPhone);
   };
 
   const handleSearchByEmail = (
@@ -50,7 +63,7 @@ const UsersAll: FunctionComponent<UsersAllProps> = () => {
   ) => {
     const { value } = event.target;
     setSearchByEmail(value);
-    filterUsers(searchByName, value, searchByPhone);
+    filterUsers(searchByCardNumber, searchByName, value, searchByPhone);
   };
 
   const handleSearchByPhone = (
@@ -58,15 +71,21 @@ const UsersAll: FunctionComponent<UsersAllProps> = () => {
   ) => {
     const { value } = event.target;
     setSearchByPhone(value);
-    filterUsers(searchByName, searchByEmail, value);
+    filterUsers(searchByCardNumber, searchByName, searchByEmail, value);
   };
 
-  const filterUsers = (name: string, email: string, phone: string) => {
+  const filterUsers = (
+    cardNumber: string,
+    name: string,
+    email: string,
+    phone: string
+  ) => {
     const filteredUsers = allUsers.filter((user) => {
       const userFullName =
         `${user.firstName} ${user.lastName}`.toLocaleLowerCase();
       const userEmail = user.email.toLocaleLowerCase();
       return (
+        (cardNumber ? user.cardNumber.includes(cardNumber) : true) &&
         (name ? userFullName.includes(name.toLocaleLowerCase()) : true) &&
         (email ? userEmail.includes(email.toLocaleLowerCase()) : true) &&
         (phone ? user.phone.includes(phone) : true)
@@ -83,12 +102,24 @@ const UsersAll: FunctionComponent<UsersAllProps> = () => {
           <TableHead>
             <TableRow>
               <TableCell />
+              <TableCell>Номер на карта</TableCell>
               <TableCell>Имена</TableCell>
               <TableCell>Имейл</TableCell>
               <TableCell>Телефон</TableCell>
             </TableRow>
             <TableRow>
               <TableCell />
+              <TableCell>
+                <TextField
+                  placeholder="търси..."
+                  variant="standard"
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                  value={searchByCardNumber}
+                  onChange={(e) => handleSearchByCardNumber(e)}
+                />
+              </TableCell>
               <TableCell>
                 <TextField
                   placeholder="търси..."

@@ -39,6 +39,9 @@ const UserRow: FunctionComponent<UserRowProps> = (props) => {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
+          {user.cardNumber}
+        </TableCell>
+        <TableCell>
           {user.firstName} {user.lastName}
         </TableCell>
         <TableCell>{user.email}</TableCell>

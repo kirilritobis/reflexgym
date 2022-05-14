@@ -1,6 +1,7 @@
+import { Button } from "@mui/material";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { uploadImage } from "../../services/UsersService/UsersService";
-import FileBase64 from "../../utils/test";
+
 import "./UserDetailsExpanded.css";
 
 interface UsersExpandedProps {
@@ -8,24 +9,33 @@ interface UsersExpandedProps {
 }
 
 const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
-  const [image, setImage] = useState<string>("");
   useEffect(() => {}, []);
-  const handleImageAdd = async (file: any) => {
-    await uploadImage(file.base64);
-    setImage(file.base64);
+
+  const handleImageAdd = async (files: FileList | null) => {
+    const file = files![0];
+    const imageFile = new FormData();
+    imageFile.set("image", file);
+    await uploadImage(imageFile);
   };
   return (
     <div className="expanded-user-container">
-      <img
+      {/* <img
         className="expanded-user-picture"
         src={image}
         alt="photo"
         width="200"
-      ></img>
-      <FileBase64 multiple={false} onDone={handleImageAdd} />
+      ></img> */}
       <div className="expanded-user-info">
         <div>email: </div>
         <div>phone: </div>
+        <Button variant="contained" component="label">
+          Upload File
+          <input
+            type="file"
+            hidden
+            onChange={(event) => handleImageAdd(event.target.files)}
+          />
+        </Button>
       </div>
     </div>
   );

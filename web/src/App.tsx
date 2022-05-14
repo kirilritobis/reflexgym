@@ -1,25 +1,15 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
+import BarcodeInput from "./components/BarcodeInput/BarcodeInput";
 import Login from "./components/Login/Login";
-import UserDialog from "./components/UserDialog/UserDialog";
 import UsersAll from "./components/UsersAll/UsersAll";
-import { uploadImage } from "./services/UsersService/UsersService";
 
 function App() {
-  const [userCardNumber, setUserCardNumber] = useState<string>("");
-  const handleClick = async (): Promise<void> => {
-    await uploadImage("asd");
-  };
   return (
     <div className="App">
-      <button onClick={() => setUserCardNumber("korten")}>asd</button>
-      <button onClick={handleClick}>qwe</button>
+      <BarcodeInput />
       <BrowserRouter>
-        <UserDialog
-          userCardNumber={userCardNumber}
-          setUserCardNumber={setUserCardNumber}
-        />
         {/* <AuthContext.Provider value={{ ...authValue, setLoginState: setAuthValue }}> */}
         <Routes>
           <Route path="/" element={<Navigate replace to="/home" />} />
