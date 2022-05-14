@@ -16,10 +16,12 @@ const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
 
   useEffect(() => {
     (async () => {
-      const userDetails = await loadUserByCardNumber(props.cardNumber);
-      setUserDetails(userDetails[0]);
+      if (props.cardNumber) {
+        const userDetails = await loadUserByCardNumber(props.cardNumber);
+        setUserDetails(userDetails[0]);
+      }
     })();
-  }, []);
+  }, [props.cardNumber]);
 
   const handleImageAdd = async (files: FileList | null) => {
     const file = files![0];
@@ -27,18 +29,20 @@ const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
     imageFile.append("image", file);
     await uploadImage(imageFile);
   };
-  console.log(userDetails);
+
   return (
     <div className="expanded-user-container">
       <img
         className="expanded-user-picture"
-        src="http://localhost:8001/123.jpeg"
+        src={userDetails.profilePic}
         alt="photo"
         width="200"
       ></img>
       <div className="expanded-user-info">
-        <div>email: {userDetails.email}</div>
-        <div>phone: {userDetails.phone}</div>
+        <div>Имейл: {userDetails.email}</div>
+        <div>Телефон: {userDetails.phone}</div>
+        <div>Дата на регистрация: </div>
+        <div>Последно посещение: </div>
         <Button variant="contained" component="label">
           Upload File
           <input
