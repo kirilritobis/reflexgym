@@ -13,8 +13,9 @@ const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
 
   const handleImageAdd = async (files: FileList | null) => {
     const file = files![0];
+    console.log(file.type);
     const imageFile = new FormData();
-    imageFile.set("image", file);
+    imageFile.append("image", file);
     await uploadImage(imageFile);
   };
   return (
