@@ -31,6 +31,12 @@ const CardSchema = new Schema({
     createdOn: {
         type: Date,
         default: () => Date.now()
+    },
+    chargedOn: {
+        type: Date
+    },
+    expiresOn: {
+        type: Date
     }
 })
 CardSchema.plugin(autoIncrement, { model: 'Card', field: 'uId' })
