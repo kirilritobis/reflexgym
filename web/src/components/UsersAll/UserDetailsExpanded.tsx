@@ -30,12 +30,12 @@ const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
   console.log(userDetails);
   return (
     <div className="expanded-user-container">
-      {/* <img
+      <img
         className="expanded-user-picture"
-        src={image}
+        src="http://localhost:8001/123.jpeg"
         alt="photo"
         width="200"
-      ></img> */}
+      ></img>
       <div className="expanded-user-info">
         <div>email: {userDetails.email}</div>
         <div>phone: {userDetails.phone}</div>
