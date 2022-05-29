@@ -81,10 +81,15 @@ module.exports = function CardModel () {
             }
 
             const card = await CardSchema.findOne(q)
+            const date = new Date()
             if(card.byVisits) {
                 if(card.remainingVisits > 0) {
                     card.remainingVisits--;
                 } else {
+                    throw new Error('Card Expired')
+                }
+            } else {
+                if(card.expiresOn < date) {
                     throw new Error('Card Expired')
                 }
             }
