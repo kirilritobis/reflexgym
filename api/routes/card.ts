@@ -13,6 +13,12 @@ router.route('/:cardId')
 router.route('/detailsByUser/:cardNumber')
     .get(/*verifyToken,*/ CardCtrl.getCardByUserUid)
 
+router.route('/:cardNumber/markVisitation')
+    .put(/*verifyToken,*/ CardCtrl.markVisitation)
+
+// router.route('/:cardNumber/loadCard')
+//     .put(/*verifyToken,*/ CardCtrl.loadCard)
+
 // TODO Another API for the dialog
 
 module.exports = router

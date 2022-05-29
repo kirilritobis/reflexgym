@@ -26,9 +26,41 @@ module.exports = function CardController () {
             return errorhandler.sendError(err, req, res)
         }
     }
+
+    async function markVisitation (req, res) {
+        try {
+            const cardNumber = Number(req.params.cardNumber)
+            const card = await CardsModel.markVisitation(cardNumber)
+            // const card = await CardsModel.getCardByUserUid(cardNumber)
+            res.send(card)
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res)
+        }
+    }
+
+    // async function loadCard (req, res) {
+    //     try {
+    //         const cardNumber = Number(req.params.cardNumber)
+    //         const { visitations, months } = req.body
+    //         const data = {
+    //             visitations,
+    //             months,
+    //             cardNumber
+    //         }
+    //         const card = await CardsModel.loadCard(data)
+    //         // const card = await CardsModel.getCardByUserUid(cardNumber)
+    //         res.send(card)
+    //     } catch (err) {
+    //         logger.error('%o', err)
+    //         return errorhandler.sendError(err, req, res)
+    //     }
+    // }
     
     return {
         getCardData,
-        getCardByUserUid
+        getCardByUserUid,
+        markVisitation
+        // loadCard
     }
 }

@@ -1,5 +1,5 @@
 const passport = require('../boot/passport')
-
+const moment = require('moment')
 const CardSchema = require('../schemas/card.schema')
 
 module.exports = function CardModel () {
@@ -74,8 +74,54 @@ module.exports = function CardModel () {
         }
     }
 
+    async function markVisitation (cardId) {
+        try {
+            const q = {
+                uId: cardId
+            }
+
+            const card = await CardSchema.findOne(q)
+            if(card.byVisits) {
+                if(card.remainingVisits > 0) {
+                    card.remainingVisits--;
+                } else {
+                    throw new Error('Card Expired')
+                }
+            }
+
+            await card.save()
+            return card
+        } catch (error) {
+            throw error
+        }
+    }
+
+    // async function loadCard (data) {
+    //     try {
+    //         const q = {
+    //             uId: data.cardId
+    //         }
+    //         const card = await CardSchema.findOne(q)
+    //         console.log('>>>', moment().format())
+    //         // No such card
+    //         if(data.visitations){
+    //             card.visitations += Number(data.visitations)
+    //         } else {
+    //             console.log('FFFFFF', moment().add(5, 'days').calendar());
+    //             // card.monts += Number(data.months)
+    //         }
+            
+    //         await card.save()
+    //         return card
+    //     } catch (error) {
+    //         throw error
+    //     }
+    // }
+
     return {
         getCardData,
-        getCardByUserUid
+        getCardByUserUid,
+        markVisitation
+        // loadCard
     }
 }

@@ -17,6 +17,11 @@ const CardSchema = new Schema({
         type: Number,
         ref: 'user'
     },
+    byVisits: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     isActive: {
         type: Boolean,
         // required: true,
@@ -37,6 +42,10 @@ const CardSchema = new Schema({
     },
     expiresOn: {
         type: Date
+    },
+    remainingVisits: {
+        type: Number,
+        default: 0
     }
 })
 CardSchema.plugin(autoIncrement, { model: 'Card', field: 'uId' })
