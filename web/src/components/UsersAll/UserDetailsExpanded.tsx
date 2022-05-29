@@ -51,6 +51,11 @@ const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
             onChange={(event) => handleImageAdd(event.target.files)}
           />
         </Button>
+        <div>Дата на зареждане: {userDetails.chargedOn}</div>
+        <div>Валидна до: {userDetails.expiresOn}</div>
+        <div>
+          валидация на карта: {userDetails.expired ? "НЕВАЛИДНА" : "ВАЛИДНА"}
+        </div>
       </div>
     </div>
   );
