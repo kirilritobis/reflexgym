@@ -14,6 +14,9 @@ import { upload } from '../middlewares/file-uploader';
 router.route('/getAll')
     .get(/*verifyToken,*/ UserCtrl.getAll)
 
+router.route('/createPlan')
+    .post(/*verifyToken,*/ UserCtrl.createPlan)
+
 router.route('/:userUid')
     .get(verifyToken, UserCtrl.getUserByUid)
 
