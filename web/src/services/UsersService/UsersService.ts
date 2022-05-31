@@ -1,12 +1,9 @@
 import axios from "axios";
+import { token, BASE_URL } from "../constants";
 import { IUserRestRaw } from "./model";
 
-export const BASE_URL = `http://localhost:8001/`;
 export const headers = {
-  // "Content-Type": "application/json",
-  // "Content-Type": "multipart/form-data",
-  Authorization:
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImtpdG9kb3JvdjEzQGdtYWlsLmNvbSIsImNhcmROdW1iZXIiOjIyLCJ1c2VySWQiOjYxLCJpYXQiOjE2NTI1MzM4MTEsImV4cCI6MTY1MjU1MTgxMX0.lRVZEdzQE-rN1nqEVADOndhl24o2RUFr9D3AhTyj9-g",
+  Authorization: token,
 };
 
 export const getAll = async (): Promise<Array<IUserRestRaw>> => {
@@ -30,5 +27,13 @@ export const loadUserByCardNumber = async (
       headers,
     }
   );
+  return response.json();
+};
+
+export const markVisitation = async (cardNumber: string): Promise<any> => {
+  const response = await fetch(
+    `${BASE_URL}api/cards/${cardNumber}/markVisitation`
+  );
+
   return response.json();
 };
