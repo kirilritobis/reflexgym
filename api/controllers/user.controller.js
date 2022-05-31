@@ -154,6 +154,17 @@ module.exports = function UserController () {
         }
     }
 
+    async function createPlan (req, res) {
+        try {
+            const plan = await UsersModel.createPlan(req.body)
+            res.send(plan)
+            return plan
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res, err)
+        }
+    }
+
     return {
         createUser, 
         resetPassword,
@@ -163,5 +174,6 @@ module.exports = function UserController () {
         getAll,
         getUserByUid,
         uploadFacePhoto,
+        createPlan
     }
 }

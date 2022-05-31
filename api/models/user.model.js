@@ -1,11 +1,13 @@
 const bcrypt = require('bcrypt')
 const EmailUtils = require('../helpers/email.util')
 const multer = require('multer')
+const moment = require('moment')
 
 const crypto = require('crypto')
 const UserSchema = require('../schemas/user.schema')
 const CardSchema = require('../schemas/card.schema')
 const ImageSchema = require('../schemas/image.schema')
+const PlanSchema = require('../schemas/plan.schema')
 
 const {
     NotFound,
@@ -304,6 +306,24 @@ module.exports = function UserModel () {
         }
     }
 
+    async function createPlan (data) {
+        try {
+            const { price, startDate, months, visits } = data
+            const expiresOn = new Date(moment(startDate).add(months, 'months').calendar())
+            const obj = {
+                price,
+                startDate,
+                months,
+                expiresOn,
+                visits
+            }
+            const plan = await new PlanSchema(obj)
+            return await plan.save()
+        } catch (err) {
+            throw err
+        }
+    }
+
     return {
         createUser,
         findOneByEmail,
@@ -313,6 +333,7 @@ module.exports = function UserModel () {
         resendConfirmationCode,
         getUsers,
         getUserById,
-        uploadFacePhoto
+        uploadFacePhoto,
+        createPlan
     }
 }
