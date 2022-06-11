@@ -1,5 +1,6 @@
 // Models
 const CardsModel = require('../models/card.model')()
+const PlansModel = require('../models/card.model')()
 
 const logger = require('../utils/loggers/common.logger')
 const errorhandler = require('../helpers/errorHandler')()
@@ -39,9 +40,9 @@ module.exports = function CardController () {
         }
     }
 
-    async function getAll (req, res) {
+    async function getAllPlans (req, res) {
         try {
-            const card = await CardsModel.getAll()
+            const card = await CardsModel.getAllPlans()
             res.send(card)
         } catch (err) {
             logger.error('%o', err)
@@ -72,6 +73,6 @@ module.exports = function CardController () {
         getCardByUserUid,
         markVisitation,
         // loadCard
-        getAll
+        getAllPlans
     }
 }

@@ -1,6 +1,7 @@
 const passport = require('../boot/passport')
 const moment = require('moment')
 const CardSchema = require('../schemas/card.schema')
+const PlanSchema = require('../schemas/plan.schema')
 
 module.exports = function CardModel () {
     // Auth routes
@@ -101,9 +102,9 @@ module.exports = function CardModel () {
         }
     }
 
-    async function getAll () {
+    async function getAllPlans () {
         try {
-            return await CardSchema.find({})
+            return await PlanSchema.find({})
         } catch (error) {
             throw error
         }
@@ -137,6 +138,6 @@ module.exports = function CardModel () {
         getCardByUserUid,
         markVisitation,
         // loadCard,
-        getAll
+        getAllPlans
     }
 }
