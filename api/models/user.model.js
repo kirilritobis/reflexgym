@@ -308,14 +308,10 @@ module.exports = function UserModel () {
 
     async function createPlan (data) {
         try {
-            const { price, startDate, months, visits } = data
-            // const expiresOn = new Date(moment(startDate).add(months, 'months').calendar())
-            const expiresOn = new Date(moment(startDate).add(months, 'months').endOf('day').toDate())
+            const { price, months, visits } = data
             const obj = {
                 price,
-                startDate,
                 months,
-                expiresOn,
                 visits
             }
             const plan = await new PlanSchema(obj)

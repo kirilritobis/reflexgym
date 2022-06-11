@@ -18,6 +18,7 @@ router.route('/:cardNumber/markVisitation')
 
 router.route('/all/plans')
     .get(/*verifyToken,*/ CardCtrl.getAllPlans)
+
 // router.route('/:cardNumber/loadCard')
 //     .put(/*verifyToken,*/ CardCtrl.loadCard)
 
