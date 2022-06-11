@@ -13,20 +13,16 @@ const PlanSchema = new Schema({
         type: Number,
         required: true
     },
-    startDate: {
-        type: Date,
-        required: true
-    },
-    expiresOn: {
-        type: Date,
-        required: true
-    },
     price: {
         type: Number,
         required: true
     },
     visits: {
         type: Number
+    },
+    name: {
+        type: String,
+        // required: true
     }
 })
 PlanSchema.plugin(autoIncrement, { model: 'Plan', field: 'uId' })
