@@ -19,6 +19,10 @@ const PlanSchema = new Schema({
     },
     visits: {
         type: Number
+    },
+    name: {
+        type: String,
+        // required: true
     }
 })
 PlanSchema.plugin(autoIncrement, { model: 'Plan', field: 'uId' })
