@@ -101,6 +101,15 @@ module.exports = function CardModel () {
         }
     }
 
+    async function getAll () {
+        try {
+            return await CardSchema.find({})
+        } catch (error) {
+            throw error
+        }
+    }
+
+
     // async function loadCard (data) {
     //     try {
     //         const q = {
@@ -126,7 +135,8 @@ module.exports = function CardModel () {
     return {
         getCardData,
         getCardByUserUid,
-        markVisitation
-        // loadCard
+        markVisitation,
+        // loadCard,
+        getAll
     }
 }

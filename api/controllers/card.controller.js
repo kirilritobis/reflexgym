@@ -39,6 +39,16 @@ module.exports = function CardController () {
         }
     }
 
+    async function getAll (req, res) {
+        try {
+            const card = await CardsModel.getAll()
+            res.send(card)
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res)
+        }
+    }
+
     // async function loadCard (req, res) {
     //     try {
     //         const cardNumber = Number(req.params.cardNumber)
@@ -60,7 +70,8 @@ module.exports = function CardController () {
     return {
         getCardData,
         getCardByUserUid,
-        markVisitation
+        markVisitation,
         // loadCard
+        getAll
     }
 }
