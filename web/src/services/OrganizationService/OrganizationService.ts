@@ -2,13 +2,13 @@ import { formatDate } from "../../utils/DateUtil";
 import { BASE_URL, headers } from "../constants";
 
 export const createPlan = async (
-  startingDate: Date,
+  startDate: Date,
   price: string,
   months: string,
   visits: string
 ): Promise<any> => {
   const data = {
-    startingDate: formatDate(startingDate),
+    startDate: formatDate(startDate),
     price,
     months,
     visits,
