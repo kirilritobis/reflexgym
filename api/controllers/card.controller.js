@@ -1,5 +1,6 @@
 // Models
 const CardsModel = require('../models/card.model')()
+const PlansModel = require('../models/card.model')()
 
 const logger = require('../utils/loggers/common.logger')
 const errorhandler = require('../helpers/errorHandler')()
@@ -39,6 +40,16 @@ module.exports = function CardController () {
         }
     }
 
+    async function getAllPlans (req, res) {
+        try {
+            const card = await CardsModel.getAllPlans()
+            res.send(card)
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res)
+        }
+    }
+
     // async function loadCard (req, res) {
     //     try {
     //         const cardNumber = Number(req.params.cardNumber)
@@ -60,7 +71,8 @@ module.exports = function CardController () {
     return {
         getCardData,
         getCardByUserUid,
-        markVisitation
+        markVisitation,
         // loadCard
+        getAllPlans
     }
 }
