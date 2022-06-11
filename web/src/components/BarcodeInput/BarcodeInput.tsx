@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import {
   loadUserByCardNumber,
+  markVisitation,
   uploadImage,
 } from "../../services/UsersService/UsersService";
 import UserDialog from "../UserDialog/UserDialog";
@@ -34,7 +35,7 @@ const BarcodeInput: FunctionComponent<BarcodeInputProps> = (props) => {
     event: React.KeyboardEvent<HTMLDivElement>
   ): Promise<void> => {
     if (event.key === "Enter") {
-      await loadUserByCardNumber(userCardNumberInput);
+      await markVisitation(userCardNumberInput);
       setUserCardNumber(userCardNumberInput);
     }
   };
