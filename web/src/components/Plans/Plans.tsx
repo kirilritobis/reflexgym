@@ -13,6 +13,7 @@ import {
 } from "@material-ui/pickers";
 import TextField from "@mui/material/TextField";
 import { createPlan } from "../../services/OrganizationService/OrganizationService";
+import PlansTable from "./PlansTable/PlansTable";
 
 const Plans: FunctionComponent<{}> = () => {
   const [startingDate, setStartingDate] = useState<Date | null>(new Date());
@@ -90,6 +91,7 @@ const Plans: FunctionComponent<{}> = () => {
           </Grid>
         </Grid>
       </MuiPickersUtilsProvider>
+      <PlansTable />
     </div>
   );
 };
