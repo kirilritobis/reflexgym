@@ -21,3 +21,10 @@ export const createPlan = async (
   });
   return response.json();
 };
+
+export const getAllPlans = async (): Promise<any> => {
+  const response = await fetch(`${BASE_URL}api/cards/all/plans`, {
+    headers,
+  });
+  return response.json();
+};
