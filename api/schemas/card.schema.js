@@ -46,6 +46,9 @@ const CardSchema = new Schema({
     remainingVisits: {
         type: Number,
         default: 0
+    },
+    planId: {
+        type: mongoose.Types.ObjectId
     }
 })
 CardSchema.plugin(autoIncrement, { model: 'Card', field: 'uId' })

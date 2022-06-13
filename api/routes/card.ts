@@ -19,8 +19,8 @@ router.route('/:cardNumber/markVisitation')
 router.route('/all/plans')
     .get(/*verifyToken,*/ CardCtrl.getAllPlans)
 
-// router.route('/:cardNumber/loadCard')
-//     .put(/*verifyToken,*/ CardCtrl.loadCard)
+router.route('/:cardNumber/loadCard')
+    .put(/*verifyToken,*/ CardCtrl.loadCard)
 
 // TODO Another API for the dialog
 
