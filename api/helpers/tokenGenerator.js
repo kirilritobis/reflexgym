@@ -13,8 +13,8 @@ async function generateTokens (user) {
             cardNumber: card.uId,
             userId: user.uId
         }
-        const accessToken = jwt.sign( accessTokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '5h'})
-        const refreshToken = jwt.sign( { email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d'})
+        const accessToken = jwt.sign( accessTokenData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m'})
+        const refreshToken = jwt.sign( { email: user.email }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1d'})
         return { accessToken: accessToken, refreshToken: refreshToken }
     } catch (err) {
         logger.error('%o', err)
