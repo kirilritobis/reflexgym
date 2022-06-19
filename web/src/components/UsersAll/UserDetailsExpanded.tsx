@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import React, { FunctionComponent, useEffect, useState } from "react";
+import { getAllPlans } from "../../services/OrganizationService/OrganizationService";
 import {
   loadUserByCardNumber,
   uploadImage,
@@ -13,12 +14,15 @@ interface UsersExpandedProps {
 
 const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
   const [userDetails, setUserDetails] = useState<any>({});
+  const [allPlans, setAllPlans] = useState<any>([]);
 
   useEffect(() => {
     (async () => {
       if (props.cardNumber) {
         const userDetails = await loadUserByCardNumber(props.cardNumber);
+        const allPlansRest = await getAllPlans();
         setUserDetails(userDetails[0]);
+        setAllPlans(allPlansRest);
       }
     })();
   }, [props.cardNumber]);
@@ -56,6 +60,7 @@ const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
         <div>
           валидация на карта: {userDetails.expired ? "НЕВАЛИДНА" : "ВАЛИДНА"}
         </div>
+        <Button variant="contained">Зареди карта</Button>
       </div>
     </div>
   );
