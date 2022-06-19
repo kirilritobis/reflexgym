@@ -1,5 +1,6 @@
 const passport = require('../boot/passport')
 const moment = require('moment')
+const mongoose = require('mongoose')
 const CardSchema = require('../schemas/card.schema')
 const PlanSchema = require('../schemas/plan.schema')
 
@@ -111,33 +112,42 @@ module.exports = function CardModel () {
     }
 
 
-    // async function loadCard (data) {
-    //     try {
-    //         const q = {
-    //             uId: data.cardId
-    //         }
-    //         const card = await CardSchema.findOne(q)
-    //         console.log('>>>', moment().format())
-    //         // No such card
-    //         if(data.visitations){
-    //             card.visitations += Number(data.visitations)
-    //         } else {
-    //             console.log('FFFFFF', moment().add(5, 'days').calendar());
-    //             // card.monts += Number(data.months)
-    //         }
-            
-    //         await card.save()
-    //         return card
-    //     } catch (error) {
-    //         throw error
-    //     }
-    // }
+    async function loadCard (cardNumber, planId) {
+        try {
+            const q = {
+                uId: cardNumber
+            }
+            const card = await CardSchema.findOne(q)
+            if(!card){
+                throw new Error('No such card')
+            }
+            const plan = await PlanSchema.findById(planId)
+            if(!plan){
+                throw new Error('No such plan')
+            }
+            card.planId = planId
+            // TO DO set locals utc time
+            const currentTime = moment.utc().add(3, 'hours').toDate()
+            console.log('>>>>>', currentTime, moment.utc(), moment.utc().add(plan.months, 'months'))
+            // Check the timezone
+            card.chargedOn = currentTime
+            card.expiresOn = (card.expiresOn && currentTime < card.expiresOn) ? moment.utc(card.expiresOn).add(plan.months, 'months').endOf('day').toDate() : moment.utc().add(plan.months, 'months').endOf('day').toDate()
+            // No such card
+            if(plan.visits){
+                card.visitations += plan.visits
+            }
+
+            return await card.save()
+        } catch (error) {
+            throw error
+        }
+    }
 
     return {
         getCardData,
         getCardByUserUid,
         markVisitation,
-        // loadCard,
+        loadCard,
         getAllPlans
     }
 }

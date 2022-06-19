@@ -22,7 +22,7 @@ module.exports = function AuthController () {
                 }
                 const { accessToken, refreshToken } = await generateTokens(user)
                 res.cookie('jwt', refreshToken, { httpOnly: true } )
-                res.send({ accessToken: accessToken, activated: activated })
+                res.send({ accessToken: accessToken, refreshToken: refreshToken, activated: activated })
             })
         } catch (err) {
             logger.error('%o', err)

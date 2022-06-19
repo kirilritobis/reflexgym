@@ -1,3 +1,5 @@
+const mongoose = require('mongoose')
+
 // Models
 const CardsModel = require('../models/card.model')()
 const PlansModel = require('../models/card.model')()
@@ -50,29 +52,25 @@ module.exports = function CardController () {
         }
     }
 
-    // async function loadCard (req, res) {
-    //     try {
-    //         const cardNumber = Number(req.params.cardNumber)
-    //         const { visitations, months } = req.body
-    //         const data = {
-    //             visitations,
-    //             months,
-    //             cardNumber
-    //         }
-    //         const card = await CardsModel.loadCard(data)
-    //         // const card = await CardsModel.getCardByUserUid(cardNumber)
-    //         res.send(card)
-    //     } catch (err) {
-    //         logger.error('%o', err)
-    //         return errorhandler.sendError(err, req, res)
-    //     }
-    // }
+    async function loadCard (req, res) {
+        try {
+            const cardNumber = Number(req.params.cardNumber)
+            let { planId } = req.body
+            planId = mongoose.Types.ObjectId(planId)
+            const card = await CardsModel.loadCard(cardNumber, planId)
+            // const card = await CardsModel.getCardByUserUid(cardNumber)
+            res.send(card)
+        } catch (err) {
+            logger.error('%o', err)
+            return errorhandler.sendError(err, req, res)
+        }
+    }
     
     return {
         getCardData,
         getCardByUserUid,
         markVisitation,
-        // loadCard
+        loadCard,
         getAllPlans
     }
 }
