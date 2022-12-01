@@ -5,6 +5,7 @@ import {
   loadUserByCardNumber,
   uploadImage,
 } from "../../services/UsersService/UsersService";
+import ChargeCardDialog from "./ChargeCardDialog/ChargeCardDialog";
 
 import "./UserDetailsExpanded.css";
 
@@ -14,15 +15,14 @@ interface UsersExpandedProps {
 
 const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
   const [userDetails, setUserDetails] = useState<any>({});
-  const [allPlans, setAllPlans] = useState<any>([]);
+  const [isLoadCardDialogOpened, setIsLoadCardDialogOpened] =
+    useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       if (props.cardNumber) {
         const userDetails = await loadUserByCardNumber(props.cardNumber);
-        const allPlansRest = await getAllPlans();
         setUserDetails(userDetails[0]);
-        setAllPlans(allPlansRest);
       }
     })();
   }, [props.cardNumber]);
@@ -60,7 +60,16 @@ const UserDetailsExpanded: FunctionComponent<UsersExpandedProps> = (props) => {
         <div>
           валидация на карта: {userDetails.expired ? "НЕВАЛИДНА" : "ВАЛИДНА"}
         </div>
-        <Button variant="contained">Зареди карта</Button>
+        <Button
+          variant="contained"
+          onClick={() => setIsLoadCardDialogOpened(true)}
+        >
+          Зареди карта
+        </Button>
+        <ChargeCardDialog
+          setOpen={setIsLoadCardDialogOpened}
+          isOpen={isLoadCardDialogOpened}
+        />
       </div>
     </div>
   );

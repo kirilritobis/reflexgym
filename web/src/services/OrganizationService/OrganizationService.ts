@@ -28,3 +28,15 @@ export const getAllPlans = async (): Promise<any> => {
   });
   return response.json();
 };
+
+export const loadCard = async (): Promise<any> => {
+  const cardNumber = "string";
+  const data = {
+    something: "some string",
+  };
+  const response = await fetch(`${BASE_URL}api/${cardNumber}/loadCard`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(data),
+  });
+};
